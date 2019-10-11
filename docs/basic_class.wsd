@@ -1,0 +1,40 @@
+@startuml
+Board o-- Grid
+Board -- Board
+class Board {
+    - Grid[][] grids
+    - Board()
+    + {static} Board getBoard()
+    + void generateGrids(int typeNum)
+    + void show()
+    + boolean isSolvable()
+    + void cancel(Grid g1, Grid g2)
+}
+
+class Grid {
+    - int row
+    - int col
+    - int type
+    - boolean eliminated
+    + Grid(int r int c, int t)
+    + void set(int r, int c, int t, boolean e)
+    + {static} boolean cancellable(Grid g1, Grid g2)
+}
+
+Game o-- Board
+Game o-- Timer
+
+class Game {
+    - Board Board
+    - Timer timer
+    + Game(Board b, Timer t)
+    + Board getBoard()
+    + void start()
+    + voidend()
+}
+class Timer {
+    - int remain
+    + Timer(int r)
+    + void start()
+}
+@enduml

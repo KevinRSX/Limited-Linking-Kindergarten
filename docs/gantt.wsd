@@ -1,0 +1,14 @@
+@startgantt
+project starts the 2019/10/11
+[Template] lasts 3 days
+[Grid design] lasts 6 days
+[Grid design] is colored in BlueViolet
+[Board design] lasts 6 days
+[Board design] is colored in Cyan
+[Timer & Main] lasts 6 days
+[Timer & Main] is colored in DeepPink
+[Template]->[Grid design]
+[Template]->[Board design]
+[Template]->[Timer & Main]
+[Release 1] happens at [Timer & Main]'s end
+@endgantt
