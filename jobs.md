@@ -29,4 +29,5 @@ Command line only
 
 - Hints
 - Difficulties
-- 
+- Achievements
+- Scoreboard
