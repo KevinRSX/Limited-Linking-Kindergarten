@@ -1,3 +1,7 @@
 .DS_Store
 /.metadata/
-/bin/
+/llk/bin/
+.project
+/llk/.project
+/llk/.settings/
+/llk/.classpath
