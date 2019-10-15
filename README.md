@@ -4,7 +4,7 @@
 
 Operations in this section happens only when you are trying to work on this project on a new device. All steps are performed in `master` branch.
 
-Clone this repo and move `llk` folder out of the whole repository.
+Clone this repo and **move `llk` folder out of the whole repository**.
 
 ```shell
 git clone https://github.com/KevinRSX/Limited-Linking-Kindergarten
