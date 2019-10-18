@@ -36,7 +36,7 @@ public class Timer extends Thread {
 		// successfully finished task, notify Game
 	}
 	
-	public long getElapsedTime() {
+	public synchronized long getElapsedTime() {
 		return (System.currentTimeMillis() - creation_time);
 	}
 	/*
