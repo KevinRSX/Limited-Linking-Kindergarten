@@ -1,69 +1,130 @@
 package basic;
 
-public class Timer extends Thread {
+public class Timer {
+	private static Timer ti = new Timer();
+	private TimerThread timer;
 	private int set_time;
-	private int display_time;
-	private long duration_time;
-	private long creation_time;
-	private long finish_time;
+	private int bonus_time;
+	private long elapsed_time;
+	private boolean is_paused;
+	private boolean is_running;
 	
-	public Timer(int rt) {
-		set_time = display_time = rt;
-		duration_time = rt * 1000;
+	private Timer() {
+		set_time = bonus_time = 0;
+		elapsed_time = 0L;
+		is_running = is_paused = false;
 	}
 	
-	public Timer(int rt, long et) {
-		set_time = rt;	
-		duration_time = rt * 1000 - et;
-		display_time = (int)(duration_time / 1000);
+	public static Timer getInstance(){
+		return ti;
 	}
 	
-	@Override
-	public void run() {
-		creation_time = System.currentTimeMillis();
-		finish_time = creation_time + duration_time;
-		long temp = creation_time;
-		System.out.println(display_time);
-		while(!Thread.currentThread().isInterrupted()) {
-			if (System.currentTimeMillis() - temp == 1000) {
-				System.out.println(--display_time);
-				temp = System.currentTimeMillis();
-			}
-			if (System.currentTimeMillis() >= finish_time) {
-				break;
-			}
-		}
-		// successfully finished task, notify Game
+	public boolean setUp(int rt) {
+		set_time = rt;
+		elapsed_time = 0L;
+		timer = new TimerThread(rt);
+		return true;
 	}
 	
-	public synchronized long getElapsedTime() {
-		return (System.currentTimeMillis() - creation_time);
-	}
-	/*
-	private class TimerThread extends Thread {
-		private int re_time_sec = 0;
-		private long creation_time;
-		private long finish_time;
-		
-		private TimerThread(int rt) {
-			re_time_sec = rt;
+	public boolean start() {
+		if (!is_paused && !is_running) {
+			timer.start();
+			System.out.println("started.");
+			is_running = true;
+			return true;
+		} else {
+			// throw exceptions
+			System.out.println("start error.");
+			return false;
 		}
 		
-		@Override
-		public void run() {
-			creation_time = System.currentTimeMillis();
-			finish_time = creation_time + re_time_sec * 1000;
-			long temp = creation_time;
-			System.out.println(re_time_sec);
-			while(true) {
-				if (System.currentTimeMillis() - temp == 1000) {
-					System.out.println(--re_time_sec);
-					temp = System.currentTimeMillis();
-				}
-				if (System.currentTimeMillis() >= finish_time)
-					break;
-			}
-			// successfully finished task, notify Game
+	}
+	
+	public boolean pause() {
+		if (is_running && !is_paused) {
+			elapsed_time += timer.getElapsedTime();
+			timer.interrupt();
+			System.out.println("paused.");
+			is_paused = true;
+			is_running = false;
+			return true;
+		} else {
+			// throw exceptions
+			System.out.println("pause error.");
+			return false;
 		}
-	}*/
+		
+	}
+	
+	public boolean restart() {
+		if (is_paused && !is_running) {
+			timer = new TimerThread(set_time, elapsed_time);
+			timer.start();
+			System.out.println("restarted.");
+			is_paused = false;
+			is_running = true;
+			return true;
+		} else {
+			// throw exceptions
+			System.out.println("restart error.");
+			return false;
+		}
+	}
+	
+	public boolean terminate() {
+		if (is_paused && !is_running) {
+			System.out.println("terminated.");
+			is_paused = false;
+			return true;
+		} else if (is_running && !is_paused) {
+			timer.interrupt();
+			System.out.println("terminated.");
+			is_running = false;
+			return true;
+		} else {
+			// throw exceptions
+			System.out.println("terminate error.");
+			return false;
+		}			
+	}
+	
+	public boolean increaseTime(int it) {
+		if (is_running) {
+			elapsed_time += timer.getElapsedTime();
+			timer.interrupt();
+			elapsed_time = (it * 1000 > elapsed_time) ? 0 : elapsed_time - it*1000;
+			timer = new TimerThread(set_time, elapsed_time);
+			timer.start();
+			System.out.println("added " + it + " seconds to timer.");
+			return true;
+		} else if (is_paused) {
+			elapsed_time = (it * 1000 > elapsed_time) ? 0 : elapsed_time - it*1000;
+			System.out.println("added " + it + " seconds to timer.");
+			return true;
+		} else {
+			// throw exceptions
+			System.out.println("increase time error.");
+			return false;
+		}		
+	}
+	
+	public boolean decreaseTime(int dt) {
+		if (is_running) {
+			elapsed_time += timer.getElapsedTime();
+			timer.interrupt();
+			elapsed_time = (dt * 1000 > (set_time * 1000 - elapsed_time)) ? set_time * 1000 : elapsed_time + dt*1000;
+			timer = new TimerThread(set_time, elapsed_time);
+			timer.start();
+			System.out.println("subtracted " + dt + " seconds to timer.");
+			return true;
+		} else if (is_paused) {
+			elapsed_time = (dt * 1000 > (set_time * 1000 - elapsed_time)) ? set_time * 1000 : elapsed_time + dt*1000;
+			System.out.println("subtracted " + dt + " seconds to timer.");
+			return true;
+		} else {
+			// throw exceptions
+			System.out.println("decrease time error.");
+			return false;
+		}	
+	}
 }
