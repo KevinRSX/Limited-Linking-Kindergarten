@@ -14,4 +14,29 @@ public enum GridType {
 	public static GridType getType(int t) {
 		return GridType.values()[t];
 	}
+	
+	public String toString()
+	{
+		switch(this)
+		{
+		case A:
+			return "A";
+		case B:
+			return "B";
+		case C:
+			return "C";
+		case D:
+			return "D";
+		case E:
+			return "E";
+		case F:
+			return "F";
+		case G:
+			return "G";
+		case H:
+			return "H";
+		default:
+			return "*";
+		}
+	}
 }
