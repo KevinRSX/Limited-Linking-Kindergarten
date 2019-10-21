@@ -87,6 +87,38 @@ class testBoard {
 	}
 	
 	@Test
+	void gridSolvableInTurn() throws Exception // local isSolvable
+	{
+		/* XXXX
+		 * XA X
+		 * XXAX
+		 */
+		class BoardStub extends Board
+		{
+			@Override
+			public void generateGrids()
+			{
+				for (int i = 1; i < getSize() - 1; i++)
+				{
+					for (int j = 1; j < getSize() - 1; j++)
+					{
+						setGrid(i, j, GridType.B);
+					}
+				}
+				setGrid(2, 2, GridType.A);
+				setGrid(3, 3, GridType.A);
+			}
+		}
+		BoardStub bs = new BoardStub();
+		bs.setSize(4);
+		bs.generateGrids();
+		assertEquals(false, bs.isSolvable(2, 2, 3, 3));
+		bs.setGrid(2, 3, GridType.NONE);
+		assertEquals(true, bs.isSolvable(2, 2, 3, 3));
+		
+	}
+	
+	@Test
 	void gridSolvableOutTurn1() throws Exception // local isSolvable
 	{
 		/*  AXA
