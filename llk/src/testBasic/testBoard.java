@@ -19,7 +19,7 @@ class testBoard {
 	{
 		Board b = Board.getInstance();
 		b.setSize(8);
-		b.generateGrids();
+		b.generateGrids(); 
 		b.show();
 	}
 	

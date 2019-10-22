@@ -13,7 +13,7 @@ public class TimerThread extends Thread {
 	}
 	
 	public TimerThread(int rt, long et) {
-		set_time = rt;	
+		set_time = rt;	 
 		duration_time = rt * 1000 - et;
 		display_time = (int)(duration_time / 1000);
 	}
