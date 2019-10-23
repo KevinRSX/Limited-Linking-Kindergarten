@@ -9,8 +9,9 @@ public enum GridType {
 	E,
 	F,
 	G,
-	H;
-	
+	H,
+	CANCELLED;
+
 	public static GridType getType(int t) {
 		return GridType.values()[t];
 	}
@@ -35,6 +36,8 @@ public enum GridType {
 			return "G";
 		case H:
 			return "H";
+		case CANCELLED:
+			return " ";
 		default:
 			return "*";
 		}

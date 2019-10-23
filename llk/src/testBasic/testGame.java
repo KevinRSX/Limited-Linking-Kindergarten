@@ -7,14 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import basic.Game;
+import basic.WrongGameSizeException;
 
 class testGame {
 
 	@Test
-	void test() throws Exception { //test Game start.
-		Game game=Game.getInstance();
-		game.start(10, 100);
-		
+	void test()  { //test Game.
+
+
 	}
 
 }

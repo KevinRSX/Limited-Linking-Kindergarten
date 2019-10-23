@@ -14,7 +14,7 @@ public class TimerThread extends Thread {
 	
 	public TimerThread(int rt, long et) {
 		set_time = rt;	 
-		duration_time = rt * 1000 - et;
+		duration_time = rt * 1000 - et; 
 		display_time = (int)(duration_time / 1000);
 	}
 	
@@ -26,7 +26,7 @@ public class TimerThread extends Thread {
 		System.out.println(display_time);
 		while(!Thread.currentThread().isInterrupted()) {
 			if (System.currentTimeMillis() - temp == 1000) {
-				System.out.println(--display_time);
+				--display_time;
 				temp = System.currentTimeMillis();
 			}
 			if (System.currentTimeMillis() >= finish_time) {
@@ -66,4 +66,9 @@ public class TimerThread extends Thread {
 			// successfully finished task, notify Game
 		}
 	}*/
+
+	public void showTime() {
+		System.out.println(display_time+" seconds left");
+		
+	}
 }

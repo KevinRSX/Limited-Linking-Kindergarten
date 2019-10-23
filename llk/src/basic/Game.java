@@ -1,43 +1,50 @@
 package basic;
-import java.util.Scanner;
-
 
 public class Game {
 	private Board board;
 	private Timer timer;
 	private boolean is_paused;
-	private static Game game=new Game();
-	public static Game getInstance() {
-		return game;
-	}
-	private Game() {
-		board=new Board();
+	public Game(int size,int time) throws WrongGameSizeException {
 		timer=Timer.getInstance();
-	}
-	public boolean start(int size, int time) throws Exception {
 		timer.setUp(time);
+		board=new Board(size);
+		is_paused=false;
+	}
+	public void start() throws StartErrorException {
 		timer.start();
-		board.setSize(size);
-		board.generateGrids();
-		return true;
+		board.generateAll();
+		board.show();
+		is_paused=false;
 	}
-	public void pauseTimer() {
+	public void pause() throws PauseErrorException {
 		timer.pause();
+		is_paused=true;
 	}
-	public void endGame() {
-		timer.terminate();
+	public void restart() throws RestartErrorException {
 		
+		timer.restart();
+		is_paused=false;
 	}
-	public void executeCancel(int x1, int y1, int x2, int y2) {
-		if(board.isSolvable(x1, y1, x2, y2)) {
-			board.cancel(x1,x2,x3,x4);					
-			if(!board.isSolvable()) {
-				board.shuffle();
-				System.out.println("There is no grid can be solved. Board shuffled!")
+	public void terminate() throws TerminateErrorException {
+		timer.terminate();
+		is_paused=false;	
+	}
+	public void cancelGrids(int x1, int y1, int x2, int y2) throws OutOfBoundException, CannotCancelException, TerminateErrorException {
+		if(!is_paused) {	
+				board.cancel(x1,y2,x2,y2);
+			if(board.getExistingNumber()==0) {
+					terminate();
+					System.out.println("Congratulation!");
 			}
-		}
-		else {
-			System.out.println("The two grids can not be linked together")
+		}else {
+			System.out.println("Please restart game first!");
 		}
 	}
+	public void showBoard() {
+		board.show();
+	}
+	public void showTime() {
+		timer.show();
+	}
+
 }
