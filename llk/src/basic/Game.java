@@ -14,6 +14,7 @@ public class Game {
 		timer.start();
 		board.generateAll();
 		board.show();
+		timer.show();
 		is_paused=false;
 	}
 	public void pause() throws PauseErrorException {

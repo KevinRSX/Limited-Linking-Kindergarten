@@ -30,6 +30,9 @@ public class test {
 						int to_decrease = sc.nextInt();
 						t.decreaseTime(to_decrease);
 						break;
+					case 's':
+						t.show();
+						break;
 					}
 					in = sc.next().charAt(0);
 				}

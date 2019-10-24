@@ -23,7 +23,6 @@ public class TimerThread extends Thread {
 		creation_time = System.currentTimeMillis();
 		finish_time = creation_time + duration_time;
 		long temp = creation_time;
-		System.out.println(display_time);
 		while(!Thread.currentThread().isInterrupted()) {
 			if (System.currentTimeMillis() - temp == 1000) {
 				--display_time;
@@ -68,7 +67,7 @@ public class TimerThread extends Thread {
 	}*/
 
 	public void showTime() {
-		System.out.println(display_time+" seconds left");
+		System.out.println("times left: "+display_time+" (seconds)");
 		
 	}
 }

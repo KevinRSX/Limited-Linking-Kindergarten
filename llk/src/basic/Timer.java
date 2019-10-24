@@ -32,7 +32,6 @@ public class Timer {
 		} else {
 			throw new StartErrorException();
 		}
-		
 	}
 	
 	public void pause() throws PauseErrorException {
@@ -45,9 +44,7 @@ public class Timer {
 		} else {
 			throw new PauseErrorException();
 		}
-		
 	}
-	
 	public boolean restart() throws RestartErrorException {
 		if (is_paused && !is_running) {
 			timerThread = new TimerThread(set_time, elapsed_time);

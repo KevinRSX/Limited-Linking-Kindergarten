@@ -249,9 +249,9 @@ public class Board {
 			throw new CannotCancelException();
 		}
 		setGrid(x1, y1, GridType.CANCELLED);
-		setGrid(x2, y2, GridType.CANCELLED);
-		
+		setGrid(x2, y2, GridType.CANCELLED);		
 		show();
+		if(getExistingNumber()==0) return;
 		while (!isSolvable())
 		{
 			System.out.println("No grid can be cancelled, shuffling...");
