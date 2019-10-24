@@ -38,6 +38,8 @@ public enum GridType {
 			return "H";
 		case CANCELLED:
 			return " ";
+		case NONE:
+			return "*";
 		default:
 			return "*";
 		}

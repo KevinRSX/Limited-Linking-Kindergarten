@@ -52,6 +52,11 @@ public class Board {
 		return sum;
 	}
 	
+	public boolean canPassThrough(int r, int c) // utility function to judge if a grid can be gone through
+	{
+		return (grids[r][c] == GridType.CANCELLED) || (grids[r][c] == GridType.NONE);
+	}
+	
 	public void generateGrid(GridType gt)
 	{
 		Random rand = new Random();
@@ -146,7 +151,7 @@ public class Board {
 			int step = y1 > y2 ? -1 : 1;
 			for (int i = y1 + step; i != y2; i += step)
 			{
-				if (grids[x1][i] != GridType.NONE)
+				if (!canPassThrough(x1, i))
 					return false;
 			}
 			return true;
@@ -156,7 +161,7 @@ public class Board {
 			int step = x1 > x2 ? -1 : 1;
 			for (int i = x1 + step; i != x2; i += step)
 			{
-				if (grids[i][y1] != GridType.NONE)
+				if (!canPassThrough(i, y1))
 					return false;
 			}
 			return true;
@@ -168,8 +173,8 @@ public class Board {
 	{
 		if (x1 == x2 || y1 == y2)
 			return false;
-		if ((lineEliminate(x1, y1, x1, y2) && lineEliminate(x1, y2, x2, y2) && (grids[x1][y2] == GridType.NONE || grids[x1][y2] == GridType.CANCELLED))
-				|| (lineEliminate(x1, y1, x2, y1) && lineEliminate(x2, y1, x2, y2) && (grids[x2][y1] == GridType.NONE || grids[x2][y1] == GridType.CANCELLED)))
+		if ((lineEliminate(x1, y1, x1, y2) && lineEliminate(x1, y2, x2, y2) && canPassThrough(x1, y2))
+				|| (lineEliminate(x1, y1, x2, y1) && lineEliminate(x2, y1, x2, y2) && canPassThrough(x2, y1)))
 		{
 			return true;
 		}
@@ -209,21 +214,16 @@ public class Board {
 		return false;
 	}
 
-	public boolean isSolvable()
+	public boolean isSolvable() throws OutOfBoundException
 	{
 		for(int x1 = 1;x1 < size - 1; x1++)
 			for(int y1 = 1;y1 < size - 1; y1++)
 				for(int x2 = 1;x2 < size - 1; x2++)
 					for(int y2 = 1; y2 < size - 1; y2++)
 					{
-						try {
-							if(isSolvable(x1, y1, x2, y2))
-							{
-								System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
-								return true;
-							}
-						} catch (OutOfBoundException e) {
-
+						if(isSolvable(x1, y1, x2, y2))
+						{
+							return true;
 						}
 					}
 		return false;					

@@ -196,4 +196,42 @@ class testBoard {
 		bs.generateAll();
 		assertEquals(true, bs.isSolvable(1, 4, 3, 4));
 	}
+	
+	@Test
+	void gridSolvableOutTurn3() throws Exception // local isSolvable
+	{
+		/*  AX X
+		 *  XX X
+		 *  XXAX
+		 */
+		class BoardStub extends Board
+		{
+			public BoardStub(int s) throws WrongGameSizeException
+			{
+				super(s);
+			}
+			
+			@Override
+			public void generateAll()
+			{
+				for (int i = 1; i < getSize() - 1; i++)
+				{
+					for (int j = 1; j < getSize() - 1; j++)
+					{
+						setGrid(i, j, GridType.B);
+					}
+				}
+				setGrid(1, 1, GridType.A);
+				setGrid(3, 3, GridType.A);
+			}
+		}
+		BoardStub bs = new BoardStub(4);
+		bs.generateAll();
+		bs.setGrid(1, 3, GridType.CANCELLED);
+		bs.setGrid(2, 3, GridType.CANCELLED);
+		bs.show();
+		assertEquals(true, bs.isSolvable(1, 1, 3, 3));
+	}
+	
+	
 }

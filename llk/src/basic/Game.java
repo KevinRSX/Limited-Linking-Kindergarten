@@ -31,7 +31,7 @@ public class Game {
 	}
 	public void cancelGrids(int x1, int y1, int x2, int y2) throws OutOfBoundException, CannotCancelException, TerminateErrorException {
 		if(!is_paused) {	
-				board.cancel(x1,y2,x2,y2);
+				board.cancel(x1,y1,x2,y2);
 			if(board.getExistingNumber()==0) {
 					terminate();
 					System.out.println("Congratulation!");
