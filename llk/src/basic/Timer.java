@@ -8,6 +8,11 @@ public class Timer implements Stoppable{
 	private long elapsed_time;
 	private boolean is_paused;
 	private boolean is_running;
+	
+	// TODO 1. Testing of timer
+	// TODO 2. Stoppable implementation
+	// TODO 3. Debugging (if possible)
+	// TODO 4. GUI version of timer.
 
 	private Timer() {
 		set_time = bonus_time = 0;
