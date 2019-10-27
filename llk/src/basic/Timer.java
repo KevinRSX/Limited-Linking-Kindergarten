@@ -1,6 +1,6 @@
 package basic;
 
-public class Timer {
+public class Timer implements Stoppable{
 	private static Timer ti = new Timer();
 	private TimerThread timerThread;
 	private int set_time;
@@ -14,6 +14,7 @@ public class Timer {
 		elapsed_time = 0L;
 		is_running = is_paused = false;
 	}
+	
 	public static Timer getInstance(){
 		return ti;
 	}
@@ -24,17 +25,17 @@ public class Timer {
 		timerThread = new TimerThread(rt);
 	}
 	
-	public void start() throws StartErrorException {
+	public void start() throws TimerStartErrorException {
 		if (!is_paused && !is_running) {
 			timerThread.start();
 			System.out.println("Timer started.");
 			is_running = true;
 		} else {
-			throw new StartErrorException();
+			throw new TimerStartErrorException();
 		}
 	}
 	
-	public void pause() throws PauseErrorException {
+	public void pause() throws TimerPauseErrorException {
 		if (is_running && !is_paused) {
 			elapsed_time += timerThread.getElapsedTime();
 			timerThread.interrupt();
@@ -42,10 +43,11 @@ public class Timer {
 			is_paused = true;
 			is_running = false;
 		} else {
-			throw new PauseErrorException();
+			throw new TimerPauseErrorException();
 		}
 	}
-	public boolean restart() throws RestartErrorException {
+	
+	public boolean restart() throws TimerRestartErrorException {
 		if (is_paused && !is_running) {
 			timerThread = new TimerThread(set_time, elapsed_time);
 			timerThread.start();
@@ -54,11 +56,11 @@ public class Timer {
 			is_running = true;
 			return true;
 		} else {
-			throw new RestartErrorException();
+			throw new TimerRestartErrorException();
 		}
 	}
 	
-	public boolean terminate() throws TerminateErrorException {
+	public boolean terminate() throws TimerTerminateErrorException {
 		if (is_paused && !is_running) {
 			System.out.println("terminated.");
 			is_paused = false;
@@ -69,11 +71,11 @@ public class Timer {
 			is_running = false;
 			return true;
 		} else {
-			throw new TerminateErrorException();
+			throw new TimerTerminateErrorException();
 		}			
 	}
 	
-	public boolean increaseTime(int it) throws TimeException {
+	public boolean increaseTime(int it) throws TimerChangeException {
 		if (is_running) {
 			elapsed_time += timerThread.getElapsedTime();
 			timerThread.interrupt();
@@ -87,11 +89,11 @@ public class Timer {
 			System.out.println("added " + it + " seconds to timer.");
 			return true;
 		} else {
-			throw new TimeException();
+			throw new TimerChangeException();
 		}		
 	}
 	
-	public boolean decreaseTime(int dt) throws TimeException {
+	public boolean decreaseTime(int dt) throws TimerChangeException {
 		if (is_running) {
 			elapsed_time += timerThread.getElapsedTime();
 			timerThread.interrupt();
@@ -105,10 +107,17 @@ public class Timer {
 			System.out.println("subtracted " + dt + " seconds to timer.");
 			return true;
 		} else {
-			throw new TimeException();
+			throw new TimerChangeException();
 		}	
 	}
-	public void show() {
+	
+	public void showTime() {
 		timerThread.showTime();
+	}
+	
+	public void stop() {
+		elapsed_time = timerThread.getElapsedTime();
+		is_paused = false;
+		is_running = false;
 	}
 }

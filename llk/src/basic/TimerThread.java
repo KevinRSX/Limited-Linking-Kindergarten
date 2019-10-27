@@ -6,6 +6,7 @@ public class TimerThread extends Thread {
 	private long duration_time;
 	private long creation_time;
 	private long finish_time;
+	private Stoppable sp;
 	
 	public TimerThread(int rt) {
 		set_time = display_time = rt;
@@ -23,51 +24,28 @@ public class TimerThread extends Thread {
 		creation_time = System.currentTimeMillis();
 		finish_time = creation_time + duration_time;
 		long temp = creation_time;
+		boolean is_finished_nor = false;
 		while(!Thread.currentThread().isInterrupted()) {
 			if (System.currentTimeMillis() - temp == 1000) {
 				--display_time;
 				temp = System.currentTimeMillis();
 			}
 			if (System.currentTimeMillis() >= finish_time) {
+				is_finished_nor = true;
 				break;
 			}
 		}
-		// successfully finished task, notify Game
+		if (is_finished_nor) {
+			
+			System.out.println("lalala");
+		}
 	}
 	
 	public synchronized long getElapsedTime() {
 		return (System.currentTimeMillis() - creation_time);
 	}
-	/*
-	private class TimerThread extends Thread {
-		private int re_time_sec = 0;
-		private long creation_time;
-		private long finish_time;
-		
-		private TimerThread(int rt) {
-			re_time_sec = rt;
-		}
-		
-		@Override
-		public void run() {
-			creation_time = System.currentTimeMillis();
-			finish_time = creation_time + re_time_sec * 1000;
-			long temp = creation_time;
-			System.out.println(re_time_sec);
-			while(true) {
-				if (System.currentTimeMillis() - temp == 1000) {
-					System.out.println(--re_time_sec);
-					temp = System.currentTimeMillis();
-				}
-				if (System.currentTimeMillis() >= finish_time)
-					break;
-			}
-			// successfully finished task, notify Game
-		}
-	}*/
 
-	public void showTime() {
-		System.out.println("times left: "+display_time+" (seconds)");
-		
+	public synchronized void showTime() {
+		System.out.println("Time left: "+ display_time +" seconds.");
 	}
 }

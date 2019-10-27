@@ -6,11 +6,10 @@ public class Main {
 			Scanner sc = new Scanner(System.in); 	
 			System.out.println("Introduction\n"
 					+"p for pause.\n"
-					+ "r for restart.\n"
+					+ "r for resume (when paused).\n"
 					+ "st for show time.\n"
 					+ "sb for show board.\n"
-					+"t for terminate\n"
-					+"e for quit(must terminate before quit)\n"
+					+"t for quit.\n"
 					+ "c for cancel operation, after enter c you should enter the coordinate of grid in the form of x1 y1 x2 y2");
 			System.out.println("Please first input the game size.");
 			boolean flag=false;
@@ -21,9 +20,10 @@ public class Main {
 					Game game = new Game(size, 500);
 					game.start();
 					flag=true;
+					boolean runningFlag = true;
 					String in;		
-					in = sc.next();
-					while(!in.equals("e") ) {
+					while(runningFlag) {
+						in = sc.next();
 						sc.nextLine();
 						try {
 							switch (in) { 
@@ -31,10 +31,11 @@ public class Main {
 								game.pause();
 								break;
 							case "r":
-								game.restart();
+								game.resume();
 								break;
 							case "t":
 								game.terminate();
+								runningFlag = false;
 								break;
 							case "c":
 								String s=sc.nextLine();
@@ -55,27 +56,24 @@ public class Main {
 							default:
 								System.out.println("Please input correct command!");
 							}
-						} catch (PauseErrorException e) {
+						} catch (TimerPauseErrorException e) {
 							System.out.println(e.getMessage());
-						} catch (RestartErrorException e) {
+						} catch (TimerRestartErrorException e) {
 							System.out.println(e.getMessage());
-						} catch (TerminateErrorException e) {
+						} catch (TimerTerminateErrorException e) {
 							System.out.println(e.getMessage());
 						} catch (OutOfBoundException e) {
 							System.out.println(e.getMessage());
 						} catch (CannotCancelException e) {
 							System.out.println(e.getMessage());
 						}
-						in = sc.next();
 					}
 					sc.close();
 				} catch (WrongGameSizeException e1) {
 					System.out.println(e1.getMessage());
-				} catch (StartErrorException e1) {
+				} catch (TimerStartErrorException e1) {
 					System.out.println(e1.getMessage());
 				}
 			}
-			
-
 	}
 }

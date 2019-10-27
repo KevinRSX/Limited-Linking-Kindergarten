@@ -6,7 +6,7 @@ public class test {
 
 			try {
 				Timer t = Timer.getInstance();
-				t.setUp(100);
+				t.setUp(2);
 				t.start();
 				Scanner sc = new Scanner(System.in); 
 				char in;
@@ -31,25 +31,25 @@ public class test {
 						t.decreaseTime(to_decrease);
 						break;
 					case 's':
-						t.show();
+						t.showTime();
 						break;
 					}
 					in = sc.next().charAt(0);
 				}
 				sc.close();
-			} catch (StartErrorException e) {
+			} catch (TimerStartErrorException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (PauseErrorException e) {
+			} catch (TimerPauseErrorException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (RestartErrorException e) {
+			} catch (TimerRestartErrorException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (TerminateErrorException e) {
+			} catch (TimerTerminateErrorException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (TimeException e) {
+			} catch (TimerChangeException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
