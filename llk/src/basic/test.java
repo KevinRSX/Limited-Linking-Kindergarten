@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class test {
 	public static void main(String[] args) {
-
+		/*
 			try {
 				Timer t = Timer.getInstance();
 				t.setUp(2);
@@ -53,6 +53,6 @@ public class test {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+		*/
 	}
 }

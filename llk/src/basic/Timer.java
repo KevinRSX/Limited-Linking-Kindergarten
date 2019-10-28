@@ -8,6 +8,7 @@ public class Timer implements Stoppable{
 	private long elapsed_time;
 	private boolean is_paused;
 	private boolean is_running;
+	private Stoppable sp;
 	
 	// TODO 1. Testing of timer
 	// TODO 2. Stoppable implementation
@@ -24,10 +25,11 @@ public class Timer implements Stoppable{
 		return ti;
 	}
 	
-	public void setUp(int rt) {
+	public void setUp(int rt, Stoppable s) {
 		set_time = rt;
 		elapsed_time = 0L;
-		timerThread = new TimerThread(rt);
+		timerThread = new TimerThread(rt, ti);
+		sp = s;
 	}
 	
 	public void start() throws TimerStartErrorException {
@@ -54,7 +56,7 @@ public class Timer implements Stoppable{
 	
 	public boolean restart() throws TimerRestartErrorException {
 		if (is_paused && !is_running) {
-			timerThread = new TimerThread(set_time, elapsed_time);
+			timerThread = new TimerThread(set_time, elapsed_time, ti);
 			timerThread.start();
 			System.out.println("restarted.");
 			is_paused = false;
@@ -85,7 +87,7 @@ public class Timer implements Stoppable{
 			elapsed_time += timerThread.getElapsedTime();
 			timerThread.interrupt();
 			elapsed_time = (it * 1000 > elapsed_time) ? 0 : elapsed_time - it*1000;
-			timerThread = new TimerThread(set_time, elapsed_time);
+			timerThread = new TimerThread(set_time, elapsed_time, ti);
 			timerThread.start();
 			System.out.println("added " + it + " seconds to timer.");
 			return true;
@@ -103,7 +105,7 @@ public class Timer implements Stoppable{
 			elapsed_time += timerThread.getElapsedTime();
 			timerThread.interrupt();
 			elapsed_time = (dt * 1000 > (set_time * 1000 - elapsed_time)) ? set_time * 1000 : elapsed_time + dt*1000;
-			timerThread = new TimerThread(set_time, elapsed_time);
+			timerThread = new TimerThread(set_time, elapsed_time, ti);
 			timerThread.start();
 			System.out.println("subtracted " + dt + " seconds to timer.");
 			return true;
@@ -120,9 +122,11 @@ public class Timer implements Stoppable{
 		timerThread.showTime();
 	}
 	
-	public void stop() {
+	public boolean stop() {
 		elapsed_time = timerThread.getElapsedTime();
 		is_paused = false;
 		is_running = false;
+		sp.stop();
+		return true;
 	}
 }

@@ -8,15 +8,17 @@ public class TimerThread extends Thread {
 	private long finish_time;
 	private Stoppable sp;
 	
-	public TimerThread(int rt) {
+	public TimerThread(int rt, Stoppable s) {
 		set_time = display_time = rt;
 		duration_time = rt * 1000;
+		sp = s;
 	}
 	
-	public TimerThread(int rt, long et) {
+	public TimerThread(int rt, long et, Stoppable s) {
 		set_time = rt;	 
 		duration_time = rt * 1000 - et; 
 		display_time = (int)(duration_time / 1000);
+		sp = s;
 	}
 	
 	@Override
@@ -36,8 +38,7 @@ public class TimerThread extends Thread {
 			}
 		}
 		if (is_finished_nor) {
-			
-			System.out.println("lalala");
+			sp.stop();
 		}
 	}
 	

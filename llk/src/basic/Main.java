@@ -9,7 +9,8 @@ public class Main {
 					+ "r for resume (when paused).\n"
 					+ "st for show time.\n"
 					+ "sb for show board.\n"
-					+"t for quit.\n"
+					+ "sc for show all commands.\n"
+					+"e for quit.\n"
 					+ "c for cancel operation, after enter c you should enter the coordinate of grid in the form of x1 y1 x2 y2");
 			System.out.println("Please first input the game size.");
 			boolean flag=false;
@@ -17,29 +18,42 @@ public class Main {
 				try {
 					char temp = sc.next().charAt(0);
 					int size=temp-'0';
-					Game game = new Game(size, 500);
+					Game game = new Game(size, 5);
 					game.start();
 					flag=true;
-					boolean runningFlag = true;
 					String in;		
-					while(runningFlag) {
+					while(!game.isStopped()) {
 						in = sc.next();
 						sc.nextLine();
 						try {
 							switch (in) { 
 							case "p":
+								if (game.isStopped()) {
+									throw new GameHasEndedException();
+								}									
 								game.pause();
 								break;
 							case "r":
+								if (game.isStopped()) {
+									throw new GameHasEndedException();
+								}			
 								game.resume();
 								break;
-							case "t":
+							case "e":
+								if (game.isStopped()) {
+									throw new GameHasEndedException();
+								}			
 								game.terminate();
-								runningFlag = false;
 								break;
 							case "c":
+								if (game.isStopped()) {
+									throw new GameHasEndedException();
+								}			
 								String s=sc.nextLine();
 								int x1,y1,x2,y2;
+								if (game.isStopped()) {
+									throw new GameHasEndedException();
+								}			
 								x1=s.charAt(0)-'0';
 								y1=s.charAt(2)-'0';
 								x2=s.charAt(4)-'0';
@@ -48,13 +62,43 @@ public class Main {
 								game.showTime();
 								break;
 							case "sb":
+								if (game.isStopped()) {
+									throw new GameHasEndedException();
+								}			
 								game.showBoard();		
 								break;
+							case "sc":
+								if (game.isStopped()) {
+									throw new GameHasEndedException();
+								}
+								System.out.println("Introduction\n"
+										+"p for pause.\n"
+										+ "r for resume (when paused).\n"
+										+ "st for show time.\n"
+										+ "sb for show board.\n"
+										+ "sc for show all commands.\n"
+										+"e for quit.\n"
+										+ "c for cancel operation, after enter c you should enter the coordinate of grid in the form of x1 y1 x2 y2");
+								break;
 							case "st":
+								if (game.isStopped()) {
+									throw new GameHasEndedException();
+								}			
 								game.showTime();
 								break;
 							default:
+								if (game.isStopped()) {
+									throw new GameHasEndedException();
+								}
 								System.out.println("Please input correct command!");
+								System.out.println("Introduction\n"
+										+"p for pause.\n"
+										+ "r for resume (when paused).\n"
+										+ "st for show time.\n"
+										+ "sb for show board.\n"
+										+ "sc for show all commands.\n"
+										+"e for quit.\n"
+										+ "c for cancel operation, after enter c you should enter the coordinate of grid in the form of x1 y1 x2 y2");
 							}
 						} catch (TimerPauseErrorException e) {
 							System.out.println(e.getMessage());
@@ -65,6 +109,8 @@ public class Main {
 						} catch (OutOfBoundException e) {
 							System.out.println(e.getMessage());
 						} catch (CannotCancelException e) {
+							System.out.println(e.getMessage());
+						} catch (GameHasEndedException e) {
 							System.out.println(e.getMessage());
 						}
 					}
