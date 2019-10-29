@@ -1,5 +1,7 @@
 # Limited Linked Kindergarten
 
+This is a work-in-progress project. See release for download of current version of release.
+
 ## Setting up Workspace
 
 Operations in this section happens only when you are trying to work on this project on a new device. All steps are performed in `master` branch.

@@ -19,7 +19,11 @@ public class Main {
 				try {
 					char temp = sc.next().charAt(0);
 					int size=temp-'0';
-					Game game = new Game(size, 5);
+					if (size > 8)
+					{
+						throw new WrongGameSizeException();
+					}
+					Game game = new Game(size, 50 * size);
 					game.start();
 					flag=true;
 					String in;		
