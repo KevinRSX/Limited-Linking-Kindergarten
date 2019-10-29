@@ -1,5 +1,7 @@
 # Limited Linked Kindergarten
 
+This is the master branch of a work-in-progress Java game project. Check out `release1` branch or [download]( https://github.com/KevinRSX/Limited-Linking-Kindergarten/releases ) for the v1.0 release of this game.
+
 ## Setting up Workspace
 
 Operations in this section happens only when you are trying to work on this project on a new device. All steps are performed in `master` branch.
