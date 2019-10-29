@@ -3,15 +3,16 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
+			String intro_str = "Introduction: press:\n"
+					+"p to pause.\n"
+					+ "r to resume (when paused).\n"
+					+ "st to show time.\n"
+					+ "sb to show board.\n"
+					+ "sc to show all commands.\n"
+					+"e to quit.\n"
+					+ "c to cancel operation, after enter c you should enter the coordinate of grid in the form of x1 y1 x2 y2";
 			Scanner sc = new Scanner(System.in); 	
-			System.out.println("Introduction\n"
-					+"p for pause.\n"
-					+ "r for resume (when paused).\n"
-					+ "st for show time.\n"
-					+ "sb for show board.\n"
-					+ "sc for show all commands.\n"
-					+"e for quit.\n"
-					+ "c for cancel operation, after enter c you should enter the coordinate of grid in the form of x1 y1 x2 y2");
+			System.out.println(intro_str);
 			System.out.println("Please first input the game size.");
 			boolean flag=false;
 			while(!flag) {
@@ -71,14 +72,7 @@ public class Main {
 								if (game.isStopped()) {
 									throw new GameHasEndedException();
 								}
-								System.out.println("Introduction\n"
-										+"p for pause.\n"
-										+ "r for resume (when paused).\n"
-										+ "st for show time.\n"
-										+ "sb for show board.\n"
-										+ "sc for show all commands.\n"
-										+"e for quit.\n"
-										+ "c for cancel operation, after enter c you should enter the coordinate of grid in the form of x1 y1 x2 y2");
+								System.out.println(intro_str);
 								break;
 							case "st":
 								if (game.isStopped()) {
@@ -91,14 +85,7 @@ public class Main {
 									throw new GameHasEndedException();
 								}
 								System.out.println("Please input correct command!");
-								System.out.println("Introduction\n"
-										+"p for pause.\n"
-										+ "r for resume (when paused).\n"
-										+ "st for show time.\n"
-										+ "sb for show board.\n"
-										+ "sc for show all commands.\n"
-										+"e for quit.\n"
-										+ "c for cancel operation, after enter c you should enter the coordinate of grid in the form of x1 y1 x2 y2");
+								System.out.println(intro_str);
 							}
 						} catch (TimerPauseErrorException e) {
 							System.out.println(e.getMessage());
@@ -112,12 +99,14 @@ public class Main {
 							System.out.println(e.getMessage());
 						} catch (GameHasEndedException e) {
 							System.out.println(e.getMessage());
-						}
+						} 
 					}
 					sc.close();
 				} catch (WrongGameSizeException e1) {
 					System.out.println(e1.getMessage());
 				} catch (TimerStartErrorException e1) {
+					System.out.println(e1.getMessage());
+				} catch (OutOfBoundException e1) {
 					System.out.println(e1.getMessage());
 				}
 			}

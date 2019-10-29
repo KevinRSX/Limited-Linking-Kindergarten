@@ -13,9 +13,13 @@ public class Game implements Stoppable {
 		is_paused = is_stopped = false;
 	}
 	
-	public void start() throws TimerStartErrorException {
+	public void start() throws TimerStartErrorException, OutOfBoundException {
 		timer.start();
 		board.generateAll();
+		while (!board.isSolvable())
+		{
+			board.generateAll();
+		}
 		board.show();
 		timer.showTime();
 		is_paused = is_stopped = false;
