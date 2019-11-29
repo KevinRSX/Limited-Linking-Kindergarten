@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-public class GamePage extends JFrame{
+public class GamePage extends JFrame {
 	private JLabel back;
 	private GamePage g;
 	private JButton home, restart, hint;
@@ -23,13 +23,13 @@ public class GamePage extends JFrame{
 	private int GameSize;
 	private JProgressBar jpb;
 	private Timer timer; 
-	private GamePanel jpanel;
+	private Board jpanel;
 	
-	public GamePage(int GameSize,int t) {
+	public GamePage(int GameSize, int t) {
 		super("Limited Time");
-		setIconImage(Toolkit.getDefaultToolkit ().getImage(getClass().getResource("/images/icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
 		LEVEL = t;
-		this.GameSize = GameSize+2;
+		this.GameSize = GameSize + 2;
 		setSize(700, 600);
 		
 		ImageIcon background = new ImageIcon(getClass().getResource("/images/background.png"));
@@ -38,13 +38,13 @@ public class GamePage extends JFrame{
 
 		JPanel j = (JPanel)getContentPane();
 		j.setOpaque(false);
-		getLayeredPane().add(back, new Integer(Integer.MIN_VALUE));
+		getLayeredPane().add(back, Integer.valueOf(Integer.MIN_VALUE));
 		setVisible(true);
 
 		showMenu();
 		showTime();
 
-		this.jpanel = new GamePanel(this.GameSize);
+		this.jpanel = new Board(this.GameSize);
 		add(this.jpanel);
 		g = this;
 	}
@@ -64,13 +64,11 @@ public class GamePage extends JFrame{
 			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				jpb.setValue(jpb.getValue()+1);
 				if(jpb.getValue() > 80)
 					jpb.setForeground(Color.RED);
 				if(jpb.getValue() == 100) {
 					timer.cancel();
-					// new Dialog(g, 2, LEVEL,"haha");
 				}
 			}
 		}, 0, 900);
@@ -79,21 +77,20 @@ public class GamePage extends JFrame{
 	
 	private void showMenu() {
 		this.home = new JButton("Home");
-		this.home.setBounds(10, 10, 60, 40);
+		this.home.setBounds(10, 10, 90, 40);
 		this.add(this.home);
 		
 		this.restart = new JButton("Restart");
-		this.restart.setBounds(10, 60, 60, 40);
+		this.restart.setBounds(10, 60, 90, 40);
 		this.add(this.restart);
 
 		this.hint = new JButton("Hint");
-		this.hint.setBounds(10, 110, 60, 40);
+		this.hint.setBounds(10, 110, 90, 40);
 		this.add(this.hint);
 
 		this.home.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				Point p = g.getLocation();
 				g.dispose();
 				Main.main(null);
@@ -102,24 +99,21 @@ public class GamePage extends JFrame{
 			}
 		});
 
-//		restart.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				Point p = g.getLocation();
-//				g.dispose();
-//				GamePage GamePage;
-//				GamePage = new GamePage(GameSize-2,LEVEL);
-//				GamePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//				GamePage.setLayout(null);
-//				
-//				GamePage.setResizable(false);
-//				GamePage.setLocation(p);
-//				if(timer != null)
-//					timer.cancel();
-//			}
-//		});
-		
+		this.restart.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Point p = g.getLocation();
+				g.dispose();
+				GamePage GamePage;
+				GamePage = new GamePage(GameSize - 2,LEVEL);
+				GamePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				GamePage.setLayout(null);
+				
+				GamePage.setResizable(false);
+				GamePage.setLocation(p);
+				if(timer != null)
+					timer.cancel();
+			}
+		});
 	}
 }

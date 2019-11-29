@@ -6,15 +6,12 @@ import javax.swing.JFrame;
 
 public class Main {
 	private static MainPage e1 = new MainPage(0);
-	
 	public static void setMainPageLocation(Point p) {
 		e1.setLocation(p);
 	}
-	
 	public static Point getMainPageLocation() {
 		return e1.getLocation();
 	}
-	
 	public static void disposeMainPage() {
 		e1.dispose();
 	}

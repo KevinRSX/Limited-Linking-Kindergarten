@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 
 
 @SuppressWarnings("serial")
-public class MainPage extends JFrame implements ActionListener{
+public class MainPage extends JFrame implements ActionListener {
 	
 	private JLabel back;
 	private JButton button01, button02, button03;
@@ -30,7 +30,7 @@ public class MainPage extends JFrame implements ActionListener{
 	
 	public MainPage(int i) {
 		super("Limited Linking Kindergarten -- version 1.0.0");
-		setIconImage(Toolkit.getDefaultToolkit ().getImage(getClass().getResource("/images/icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
 		setSize(650, 500);
 		setLayout(null);
 
@@ -54,7 +54,7 @@ public class MainPage extends JFrame implements ActionListener{
 //				toLevel();
 //			}
 //		});
-		
+//		
 		button01.addActionListener(this);
 
 		button03.addActionListener(new ActionListener() {
