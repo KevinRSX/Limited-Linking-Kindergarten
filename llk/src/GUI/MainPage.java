@@ -105,7 +105,7 @@ public class MainPage extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		Point p = Main.getMainPageLocation();
 		Main.disposeMainPage();
-		GamePage gamePage = new GamePage(this.dialog.getGame_size(),-1);
+		GamePage gamePage = new GamePage(this.dialog.getGame_size(), -1);
 		gamePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gamePage.setLayout(null);
 		gamePage.setResizable(false);

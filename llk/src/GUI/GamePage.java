@@ -105,7 +105,7 @@ public class GamePage extends JFrame {
 				Point p = g.getLocation();
 				g.dispose();
 				GamePage GamePage;
-				GamePage = new GamePage(GameSize - 2,LEVEL);
+				GamePage = new GamePage(GameSize - 2, LEVEL);
 				GamePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				GamePage.setLayout(null);
 				
