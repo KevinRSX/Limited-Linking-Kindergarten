@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -23,25 +25,36 @@ public class Board extends JPanel implements MouseListener {
 	private ArrayList<Integer> images_t; // helper arraylist to generate grids
 	private ArrayList<JLabel> label_arr;
 	private JLabel[][] grids;
-    private int[] all_paths;		
+	private boolean[][] cancelled;
+    private int[] all_paths;
+    private JLabel selected;
+    private ArrayList<RowAndColumn> path;
     
     private int index = -1;			
     @SuppressWarnings("unused")
 	private Point p_index;			
     private int k;                  
     
-    private int sum;               
-    @SuppressWarnings("rawtypes")
-	private ArrayList path;      
+    private int sum;
+//    @SuppressWarnings("rawtypes")
+//	private ArrayList path;      
           
     private int GameSize; // including edge
     
 	public Board(int GameSize) {
 		this.GameSize = GameSize;
+		selected = null;
+		grids = new JLabel[GameSize][GameSize];
+		cancelled = new boolean[GameSize][GameSize];
+		for (int i = 0; i < GameSize; i++) {
+			for (int j = 0; j < GameSize; j++) {
+				cancelled[i][j] = false;
+			}
+		}
+		
 		setLayout(new GridLayout(GameSize, GameSize));
 		setBounds((700 - GameSize * W) / 2,(600 - GameSize * W) / 2, GameSize * W, GameSize * W);
 		setOpaque(false);
-		grids = new JLabel[GameSize][GameSize];
 		initMap();
 		showGame();
 	}
@@ -72,6 +85,30 @@ public class Board extends JPanel implements MouseListener {
 	public boolean canPassThrough(int r, int c)
 	{
 		return grids[r][c].getIcon() == null;
+	}
+	
+	public RowAndColumn getIndexFromGrid(JLabel g) {
+		for (int i = 1; i < GameSize - 1; i++) {
+			for (int j = 1; j < GameSize - 1; j++) {
+				if (grids[i][j] == g) {
+					return new RowAndColumn(i, j);
+				}
+			}
+		}
+		return null;
+	}
+	
+	// traverse the whole board to see how many blocks are not cancelled
+	public int remainingNum() {
+		int remaining = 0;
+		for (int i = 1; i < GameSize - 1; i++) {
+			for (int j = 1; j < GameSize - 1; j++) {
+				if (grids[i][j].getIcon() != null) {
+					remaining++;
+				}
+			}
+		}
+		return remaining;
 	}
 	
 	// three methods for determination of cancellation
@@ -138,6 +175,37 @@ public class Board extends JPanel implements MouseListener {
 	}
 	
 	
+//	public boolean dfs(int sx, int sy, int nx, int ny, int tx, int ty) {
+//		if (((nx + 1 == tx) && (ny == ty)) || ((nx - 1 == tx) && (ny == ty))
+//				|| ((ny + 1 == ty) && (nx == tx)) || ((ny - 1 == ty) && (nx == tx))) {
+//			return true;
+//		}
+//		if (nx + 1 < GameSize && twoLineEliminate(sx, sy, nx + 1, ny)) {
+//			if (dfs(sx, sy, nx + 1, ny, tx, ty)) {
+//				path.add(new RowAndColumn(nx + 1, ny));
+//				return true;
+//			}
+//		}
+//		if (nx - 1 >= 0 && twoLineEliminate(sx, sy, nx + 1, ny)) {
+//			if (dfs(sx, sy, nx - 1, ny, tx, ty)) {
+//				path.add(new RowAndColumn(nx - 1, ny));
+//				return true;
+//			}
+//		}
+//		if (ny + 1 < GameSize && twoLineEliminate(sx, sy, nx, ny + 1)) {
+//			if (dfs(sx, sy, nx, ny + 1, tx, ty)) {
+//				path.add(new RowAndColumn(nx, ny + 1));
+//				return true;
+//			}
+//		}
+//		if (ny - 1 < GameSize && twoLineEliminate(sx, sy, nx, ny - 1)) {
+//			if (dfs(sx, sy, nx, ny - 1, tx, ty)) {
+//				path.add(new RowAndColumn(nx, ny - 1));
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 	
 	
 	
@@ -171,12 +239,17 @@ public class Board extends JPanel implements MouseListener {
 			
 			images_t.remove(nIndex);
 		}
+		
+		while (!isSolvable()) {
+			System.out.println("Not solvable, shuffling");
+			shuffle();
+		}
 	}
 
 	@SuppressWarnings({ "rawtypes" })
 	public void initMap() {
 		images_t = new ArrayList<Integer>();
-		path = new ArrayList();
+//		path = new ArrayList();
 		grid_icon = new Icon[10];
 		path_icon = new Icon[6];
 		all_paths = new int[GameSize * GameSize];
@@ -198,6 +271,34 @@ public class Board extends JPanel implements MouseListener {
 		sum = images_t.size();	
 	}
 	
+	public void shuffle() {
+		int remaining = remainingNum();
+		for (int i = 0; i < GameSize; i++) {
+			for (int j = 0; j < GameSize; j++) {
+				setGridIcon(i, j, null);
+			}
+		}
+		for(int i = 0; images_t.size() < remaining; i++) {
+			images_t.add(i % 10);
+			if (images_t.size() == remaining) {
+				continue;
+			}
+			images_t.add(i % 10);
+		}
+		
+		for (int i = 1; i < GameSize * GameSize; i++) {
+			RowAndColumn rowColPos = getIndexFromLabel(i);
+			int row = rowColPos.getRow();
+			int col = rowColPos.getCol();
+			if(i % GameSize == 0 || i % GameSize == GameSize - 1 || i / GameSize == 0 || i / GameSize == GameSize - 1 || cancelled[row][col]) {
+				continue;
+			}
+			int nIndex = new Random().nextInt(images_t.size());
+			setGridIcon(rowColPos, (ImageIcon)grid_icon[(int)images_t.get(nIndex)]); 		
+			images_t.remove(nIndex);
+		}
+	}
+	
 	// determine if the two given grids can be cancelled
 	public boolean isSolvable(int x1, int y1, int x2, int y2)
 	{
@@ -210,6 +311,10 @@ public class Board extends JPanel implements MouseListener {
 		return false;
 	}
 	
+	public boolean isSolvable(RowAndColumn p1, RowAndColumn p2) {
+		return isSolvable(p1.getRow(), p1.getCol(), p2.getRow(), p2.getCol());
+	}
+	
 	// determine if there is at least one pair of grids that can be cancelled
 	public boolean isSolvable()
 	{
@@ -218,7 +323,7 @@ public class Board extends JPanel implements MouseListener {
 				for(int x2 = 1; x2 < GameSize - 1; x2++)
 					for(int y2 = 1; y2 < GameSize - 1; y2++)
 					{
-						if(isSolvable(x1, y1, x2, y2))
+						if(grids[x1][y1].getIcon() != null && grids[x2][y2].getIcon() != null && isSolvable(x1, y1, x2, y2))
 						{
 							return true;
 						}
@@ -229,16 +334,42 @@ public class Board extends JPanel implements MouseListener {
 	/*-----------------------------events-----------------------------*/
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		JLabel j = (JLabel)e.getComponent();
-		if (j.getBorder() != null)
-			j.setBorder(null);
-		else
-			j.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
+		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
+		path = new ArrayList<>();
+		JLabel j = (JLabel)e.getComponent();
+		if (j.getIcon() != null) {
+			if (selected == null) { // first selected
+				j.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
+				selected = j;
+			}
+			else {
+				RowAndColumn rac1 = getIndexFromGrid(selected);
+				RowAndColumn rac2 = getIndexFromGrid(j);
+				if (isSolvable(rac1, rac2)) { // cancel
+					j.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
+					j.setIcon(null);
+					j.setBorder(null);
+					selected.setIcon(null);
+					selected.setBorder(null);
+					cancelled[rac1.getRow()][rac1.getCol()] = true;
+					cancelled[rac2.getRow()][rac2.getCol()] = true;
+				}
+				else { // cannot be cancelled
+					selected.setBorder(null);
+				}
+				selected = null;
+			}
+			
+			while (!isSolvable() && remainingNum() > 0) { // remaining num is just for testing
+				System.out.println("Not solvable, shuffling");
+				shuffle();
+			}
+		}
 	}
 
 	@SuppressWarnings("static-access")

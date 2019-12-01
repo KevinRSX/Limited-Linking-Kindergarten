@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
