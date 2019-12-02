@@ -1,10 +1,14 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,6 +28,8 @@ public class GamePage extends JFrame {
 	private JProgressBar jpb;
 	private Timer timer; 
 	private Board jpanel;
+	private Insets insets;
+	private ArrayList<Point> path;
 	
 	public GamePage(int GameSize, int t) {
 		super("Limited Time");
@@ -44,7 +50,7 @@ public class GamePage extends JFrame {
 		showMenu();
 		showTime();
 
-		this.jpanel = new Board(this.GameSize);
+		this.jpanel = new Board(this.GameSize, this);
 		add(this.jpanel);
 		g = this;
 	}
@@ -72,7 +78,29 @@ public class GamePage extends JFrame {
 				}
 			}
 		}, 0, 900);
-		
+	}
+	
+	public void setPath(ArrayList<Point> p) {
+		path = p;
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+	    Graphics2D g2 = (Graphics2D)g;
+	    insets = getInsets();
+		Point pre = path.get(0);
+		for (int i = 1; i < path.size(); i++) {
+			Point next = path.get(i);
+			JLabel a = jpanel.getLabel(pre.x, pre.y);
+			JLabel b = jpanel.getLabel(next.x, next.y);
+			int x1 = insets.left + a.getX() + a.getWidth() / 2;
+            int x2 = insets.left + b.getX() + b.getWidth() / 2;
+            int y1 = insets.top + a.getY() + a.getHeight() / 2;
+            int y2 = insets.top + b.getY() + b.getHeight() / 2;
+            g2.drawLine(x1, y1, x2, y2);
+            pre = next;
+		}
 	}
 	
 	private void showMenu() {
