@@ -1,48 +1,58 @@
 # Limited Linked Kindergarten
 
-This is the master branch of a work-in-progress Java game project. Check out `release1` branch or [download]( https://github.com/KevinRSX/Limited-Linking-Kindergarten/releases ) for the v1.0 release of this game.
+## Analysis and Group Report
 
-## Setting up Workspace
-
-Operations in this section happens only when you are trying to work on this project on a new device. All steps are performed in `master` branch.
-
-Clone this repo and **move `llk` folder out of the whole repository**.
-
-```shell
-git clone https://github.com/KevinRSX/Limited-Linking-Kindergarten
-```
-
-Then, open eclipse and use `your-path-to-Limited-Linking-Kindergarten/` (for example, `~/Desktop/Limited-Linking-Kindergarten`) as your eclipse workspace of this project. 
-
-Create a project and name it as `llk`. DO NOT USE OTHER NAMES. Add JUnit5 and whatever libraries you need.
-
-Drag everything inside `llk/src` into the `src` in eclipse project explorer. Then, clean everything outside `llk/src/` so that the repository look something like this.
-
-<img src="docs/file_structure.png" alt="file_structure" style="zoom:50%;" />
-
-Note that `/llk/bin` is already ignored by git.
+- Introduction, Design constraints, Use case requirements and design constraints (1)
+- Class diagram (all)
+- Design principles and patterns (2)
+  - Code refactoring (David & Dong & Harry): code & report parallel
+  - Summarize the principles and patterns
+- Program flows (sequence diagram) and algorithms:
+  - Kevin & Dong: Board
+  - David & James: GUI
+  - Zelin: Scoreboard
+  - Harry: Timer
+- Test report (all)
 
 
 
+## Bug Reporting
+
+Written by 1. Others report bugs to him.
 
 
 
+## Project Plan
 
-## Working
+Assigned to David & Zelin.
 
-Before changing anything, remember to
 
-```shell
-git pull
-```
 
-or
+## Release Summary
 
-```
-git pull origin master
-```
+Assigned to Kevin.
 
-to update the change of codes. After pulling, modifications from other members will be updated to your local machine. You don't need to move `llk` outside this time. Open eclipse, do some work, and push to GitHub. Only source code will be changed.
 
-We may consider using [branch](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging) in the future.
+
+## Self Assessment
+
+Everyone.
+
+
+
+## Installation Guide
+
+Assigned to Kevin.
+
+
+
+## User Manual
+
+Assigned to Kevin.
+
+
+
+## Activity Log
+
+Everyone.
 
