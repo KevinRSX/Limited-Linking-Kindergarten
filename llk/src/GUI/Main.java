@@ -5,22 +5,16 @@ import java.awt.Point;
 import javax.swing.JFrame;
 
 public class Main {
-	private static MainPage e1 = new MainPage(0);
-	public static void setMainPageLocation(Point p) {
-		e1.setLocation(p);
-	}
-	public static Point getMainPageLocation() {
-		return e1.getLocation();
-	}
-	public static void disposeMainPage() {
-		e1.dispose();
+	private static PreGamePage pregame = new PreGamePage(0);
+	public static void disposePreGamePage() {
+		pregame.dispose();
 	}
 //	static PlaySound p;
 	
 	public static void main(String agrs[]) {	      
-		e1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		e1.setVisible(true);
-		e1.setResizable(false);
+		pregame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pregame.setVisible(true);
+		pregame.setResizable(false);
 	
 //		if(p == null) {
 //			p = new PlaySound();

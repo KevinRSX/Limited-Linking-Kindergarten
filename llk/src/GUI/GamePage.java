@@ -8,7 +8,11 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,13 +29,15 @@ public class GamePage extends JFrame {
 	private JButton home, restart, hint;
 	private int LEVEL;
 	private int GameSize;
+	private String username;
 	private JProgressBar jpb;
 	private Timer timer; 
 	private Board jpanel;
 	private Insets insets;
 	private ArrayList<Point> path;
 	
-	public GamePage(int GameSize, int t) {
+	
+	public GamePage(int GameSize, String username, int t) {
 		super("Limited Time");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
 		LEVEL = t;
@@ -50,6 +56,7 @@ public class GamePage extends JFrame {
 		showMenu();
 		showTime();
 
+		this.username=username;
 		this.jpanel = new Board(this.GameSize, this);
 		add(this.jpanel);
 		g = this;
@@ -84,23 +91,47 @@ public class GamePage extends JFrame {
 		path = p;
 	}
 	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-	    Graphics2D g2 = (Graphics2D)g;
-	    insets = getInsets();
-		Point pre = path.get(0);
-		for (int i = 1; i < path.size(); i++) {
-			Point next = path.get(i);
-			JLabel a = jpanel.getLabel(pre.x, pre.y);
-			JLabel b = jpanel.getLabel(next.x, next.y);
-			int x1 = insets.left + a.getX() + a.getWidth() / 2;
-            int x2 = insets.left + b.getX() + b.getWidth() / 2;
-            int y1 = insets.top + a.getY() + a.getHeight() / 2;
-            int y2 = insets.top + b.getY() + b.getHeight() / 2;
-            g2.drawLine(x1, y1, x2, y2);
-            pre = next;
-		}
+//	@Override
+//	public void paint(Graphics g) {
+//		super.paint(g);
+//	    Graphics2D g2 = (Graphics2D)g;
+//	    insets = getInsets();
+//		Point pre = path.get(0);
+//		for (int i = 1; i < path.size(); i++) {
+//			Point next = path.get(i);
+//			JLabel a = jpanel.getLabel(pre.x, pre.y);
+//			JLabel b = jpanel.getLabel(next.x, next.y);
+//			int x1 = insets.left + a.getX() + a.getWidth() / 2;
+//            int x2 = insets.left + b.getX() + b.getWidth() / 2;
+//            int y1 = insets.top + a.getY() + a.getHeight() / 2;
+//            int y2 = insets.top + b.getY() + b.getHeight() / 2;
+//            g2.drawLine(x1, y1, x2, y2);
+//            pre = next;
+//		}
+//	}
+	protected void endGame(boolean finished,int score) {
+		this.dispose();
+		FileWriter fw = null;
+        try{
+            fw = new FileWriter("src/data/1.txt",true);
+            fw.write("\n"+username+", "+score+", 1000/3/1");//need to use timer
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            if(null != fw){
+                    try {
+						fw.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+            }
+        }
+		PostGamePage postgame=new PostGamePage(finished,GameSize,LEVEL,username,this);
+		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		postgame.setLayout(null);
+		
+		postgame.setResizable(false);
 	}
 	
 	private void showMenu() {
@@ -122,7 +153,7 @@ public class GamePage extends JFrame {
 				Point p = g.getLocation();
 				g.dispose();
 				Main.main(null);
-				Main.setMainPageLocation(p);
+				PreGamePage.setMainPageLocation(p);
 				timer.cancel();
 			}
 		});
@@ -133,7 +164,7 @@ public class GamePage extends JFrame {
 				Point p = g.getLocation();
 				g.dispose();
 				GamePage GamePage;
-				GamePage = new GamePage(GameSize - 2, LEVEL);
+				GamePage = new GamePage(GameSize - 2, username, LEVEL);
 				GamePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				GamePage.setLayout(null);
 				

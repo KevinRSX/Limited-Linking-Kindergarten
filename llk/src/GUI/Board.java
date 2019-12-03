@@ -36,16 +36,18 @@ public class Board extends JPanel implements MouseListener {
     private int index = -1;			
     @SuppressWarnings("unused")
 	private Point p_index;			
-    private int k;                  
+    private int k;         
     
     private int sum;
 //    @SuppressWarnings("rawtypes")
 //	private ArrayList path;      
           
     private int GameSize; // including edge
+    private int score;
     
 	public Board(int GameSize) {
 		this.GameSize = GameSize;
+		this.score=0;
 		selected = null;
 		grids = new JLabel[GameSize][GameSize];
 		cancelled = new boolean[GameSize][GameSize];
@@ -62,10 +64,9 @@ public class Board extends JPanel implements MouseListener {
 		showGame();
 	}
 	
-	public Board(int GameSize, GamePage gp) {
+	public Board(int GameSize,GamePage gp) {
 		this(GameSize);
-		gamePage = gp;
-		
+		gamePage = gp;		
 	}
 	
 	/*-----------------------------utility-----------------------------*/
@@ -377,6 +378,15 @@ public class Board extends JPanel implements MouseListener {
 		return false;					
 	}
 	
+	public boolean isFinished() {
+		for(int x = 1; x < GameSize - 1; x++) {
+			for(int y = 1; y < GameSize - 1; y++) {
+				if (cancelled[x][y]==false)
+					return false;
+			}
+		}
+		return true;
+	}
 	/*-----------------------------events-----------------------------*/
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -406,11 +416,14 @@ public class Board extends JPanel implements MouseListener {
 					selected.setBorder(null);
 					cancelled[rac1.x][rac1.y] = true;
 					cancelled[rac2.x][rac2.y] = true;
-					
+					this.score+=10;
 					// draw path
 					allTurningPoints.add(0, rac1);
 					allTurningPoints.add(rac2);
 					gamePage.setPath(allTurningPoints);
+					if(isFinished()) {
+						gamePage.endGame(true,score);
+					}
 				}
 				else { // cannot be cancelled
 					selected.setBorder(null);
