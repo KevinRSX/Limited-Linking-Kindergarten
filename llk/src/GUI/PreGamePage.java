@@ -11,9 +11,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.awt.Dimension;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
@@ -25,7 +22,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import GUI.Score.ScoreBoard;
 
@@ -42,28 +38,15 @@ public class PreGamePage extends JFrame implements ActionListener {
 	
 	public PreGamePage(int i) {
 		super("Limited Linking Kindergarten -- version 1.0.0");
-		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
-		setSize(650, 500);
+		setSize(900, 894);
 		setLayout(null);
 		
 		showBackground();
 		showInfo();
 		adapter();
-
 		
 	}
-	
-	public static void clearInfoForFile(String fileName) {
-        try {
-            FileWriter fileWriter =new FileWriter(fileName);
-            fileWriter.write("");
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 	
 	public static void setMainPageLocation(Point p) {
 		mainpage.setLocation(p);
@@ -87,11 +70,9 @@ public class PreGamePage extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		label = new JLabel("Please Input User Name"); 
 		label.setFont(new Font("acefont-family", Font.BOLD, 22));
-		label.setBounds(210,200,300,45);
-		Dimension d = label.getPreferredSize();
-	    label.setPreferredSize(new Dimension(d.width+60,d.height));
+		label.setBounds(210,200,250,45);
 
-		textField = new JTextField(40);
+		textField = new JTextField(20);
 		textField.setFont(new Font("acefont-family", Font.BOLD, 25));
 		textField.setBounds(210,250,250,40);
 
@@ -106,7 +87,7 @@ public class PreGamePage extends JFrame implements ActionListener {
 	
 	private void showBackground() {
 		// TODO Auto-generated method stub
-	 	ImageIcon background = new ImageIcon(getClass().getResource("/images/background.jpg"));
+	 	ImageIcon background = new ImageIcon(getClass().getResource("/images/home.jpg"));
         back = new JLabel(background);
         back.setBounds(0, 0, getWidth(), getHeight());
         JPanel j = (JPanel)getContentPane();
@@ -123,7 +104,7 @@ public class PreGamePage extends JFrame implements ActionListener {
 			return false;
 		}
 		else {
-			JOptionPane.showMessageDialog(this,"Welcome to Limited-Linking-Kindergarten: " + name + "!");
+			JOptionPane.showMessageDialog(this,"Welcome to Limited-Linking-Kindergarten£º" + name);
 			return true;
 		}
 	
@@ -133,12 +114,10 @@ public class PreGamePage extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (onButtonOk()) {
-			Point p = this.getLocation();
 			Main.disposePreGamePage();
 			mainpage = new MainPage(name);
 			mainpage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			mainpage.setLayout(null);
-			mainpage.setLocation(p);
 			mainpage.setVisible(true);
 			mainpage.setResizable(false);
 		}

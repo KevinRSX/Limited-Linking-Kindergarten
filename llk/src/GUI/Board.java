@@ -149,11 +149,6 @@ public class Board extends JPanel implements MouseListener {
 	{
 		if (x1 == x2 || y1 == y2)
 			return null;
-//		if ((lineEliminate(x1, y1, x1, y2) && lineEliminate(x1, y2, x2, y2) && canPassThrough(x1, y2))
-//				|| (lineEliminate(x1, y1, x2, y1) && lineEliminate(x2, y1, x2, y2) && canPassThrough(x2, y1)))
-//		{
-//			return true;
-//		}
 		if (lineEliminate(x1, y1, x1, y2) && lineEliminate(x1, y2, x2, y2) && canPassThrough(x1, y2)) {
 			return new Point(x1, y2);
 		}
@@ -202,8 +197,6 @@ public class Board extends JPanel implements MouseListener {
 	
 	/*-----------------------------functional methods-----------------------------*/
 	public void showGame() {
-		// label_arr = new ArrayList<JLabel>();
-		
 		for(int i = 0; i < GameSize * GameSize; i++) {
 			// set edges to null
 			RowAndColumn rowColPos = getIndexFromLabel(i);
@@ -212,7 +205,6 @@ public class Board extends JPanel implements MouseListener {
 			if(i % GameSize == 0 || i % GameSize == GameSize - 1 || i / GameSize == 0 || i / GameSize == GameSize - 1) {
 				JLabel j = new JLabel();
 				j.setIcon(null);
-				// label_arr.add(j);
 				grids[row][col] = new JLabel();
 				setGridIcon(getIndexFromLabel(i), null);
 				add(grids[row][col]);
@@ -221,10 +213,7 @@ public class Board extends JPanel implements MouseListener {
 			
 			// generate a random number to determine which icon to show
 			int nIndex = new Random().nextInt(images_t.size());
-			
-			// JLabel j = new JLabel(grid_icon[(int)images_t.get(nIndex)]);
 			grids[row][col] = new JLabel(grid_icon[(int)images_t.get(nIndex)]);
-			// label_arr.add(j);
 			grids[row][col].addMouseListener(this);
 			add(grids[row][col]);
 			
@@ -243,7 +232,7 @@ public class Board extends JPanel implements MouseListener {
 		grid_icon = new Icon[10];
 		
 		for(int i = 0; i < grid_icon.length; i++) {
-			grid_icon[i] = new ImageIcon(getClass().getResource("/images/" + "fruit_"+ (i + 1) + ".jpg"));
+			grid_icon[i] = new ImageIcon(getClass().getResource("/images/" + "pic"+ (i + 1) + ".png"));
 		}
 		
 		for(int i = 0; images_t.size() < (GameSize - 2) * (GameSize - 2); i++) {
@@ -336,6 +325,7 @@ public class Board extends JPanel implements MouseListener {
 					}
 		return false;					
 	}
+	
 	public void showHint() {
 		clearBorders();
 		for(int x1 = 1; x1 < GameSize - 1; x1++)

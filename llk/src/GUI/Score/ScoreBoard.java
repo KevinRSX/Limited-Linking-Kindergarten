@@ -11,6 +11,7 @@ import java.util.*;
 public class ScoreBoard{
     private static List<Record> list = new ArrayList<>();
     private static  Object[][] arr = new Object[1000][3];
+
     
     public static void showScoreBoard(String filepath){
     	String line = null;
@@ -19,9 +20,9 @@ public class ScoreBoard{
             if(file.isFile() && file.exists()){
                 InputStreamReader read = new InputStreamReader(new FileInputStream(file));
                 BufferedReader bufferedReader = new BufferedReader(read);
-                while((line = bufferedReader.readLine()) != null&&line!="\n"){ 
+                while((line = bufferedReader.readLine()) != null){ 
                 	String[] str = line.split(", ");
-					Record r = new Record(str[0], str[1],str[2]);
+                	Record r = new Record(str[0], str[1],str[2]);
                     list.add(r);
                 }
                 bufferedReader.close();

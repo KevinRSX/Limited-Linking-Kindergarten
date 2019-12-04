@@ -19,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.SwingConstants;
 
 import GUI.Score.ScoreBoard;
 
@@ -29,12 +28,12 @@ public class PostGamePage extends JFrame {
 	private int LEVEL;
 	private JLabel label;
 	private JButton home, restart,score;
-	private boolean is_finished;
+	private boolean finished;
 	private String username;
 	private PostGamePage postgame;
 	private ScorePage scorepage;
 	
-	public PostGamePage(boolean is_finished, int gamesize, int level, String username, GamePage gp) {
+	public PostGamePage(boolean finished, int gamesize,int level,String username,GamePage gp) {
 		super("Limited Time");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
 		setSize(700, 600);
@@ -47,7 +46,7 @@ public class PostGamePage extends JFrame {
 		j.setOpaque(false);
 		getLayeredPane().add(back, Integer.valueOf(Integer.MIN_VALUE));
 		setVisible(true);
-		this.is_finished=is_finished;
+		this.finished=finished;
 		this.LEVEL=level;
 		this.GameSize=gamesize;
 		this.username=username;
@@ -61,17 +60,12 @@ public class PostGamePage extends JFrame {
 	}
 	
 	private void showMenu() {
-		if(is_finished) {
+		//if(finished) {
 			this.label= new JLabel("Congratulation!");
-		}
-		else {
-			this.label=new JLabel("Add oil next time!");
-		}		
-		this.label.setFont(new Font("acefont-family", Font.BOLD, 30));
+		//}
+		//else this.label=new JLabel("Add oil next time!");
+		this.label.setFont(new Font("acefont-family", Font.BOLD, 22));
 		this.label.setBounds(210,150,250,45);
-		this.label.setForeground(Color.RED);
-		this.label.setHorizontalAlignment(SwingConstants.CENTER);
-		this.add(this.label);
 		
 		this.score=new JButton("Score");
 		this.score.setBounds(260,200,150,40);

@@ -4,19 +4,13 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,6 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 public class GamePage extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JLabel back;
 	private GamePage g;
 	private JButton home, restart, hint;
@@ -38,6 +37,7 @@ public class GamePage extends JFrame {
 	private Timer timer; 
 	private Board jpanel;
 	private int hintNum; // refactor here (state pattern)
+	
 	
 	
 	public GamePage(int GameSize, String username, int t) {
@@ -102,36 +102,16 @@ public class GamePage extends JFrame {
 	    jpanel.showPath(g2, getInsets());
 	}
 	
-//	@Override
-//	public void paint(Graphics g) {
-//		super.paint(g);
-//	    Graphics2D g2 = (Graphics2D)g;
-//	    insets = getInsets();
-//		Point pre = path.get(0);
-//		for (int i = 1; i < path.size(); i++) {
-//			Point next = path.get(i);
-//			JLabel a = jpanel.getLabel(pre.x, pre.y);
-//			JLabel b = jpanel.getLabel(next.x, next.y);
-//			int x1 = insets.left + a.getX() + a.getWidth() / 2;
-//            int x2 = insets.left + b.getX() + b.getWidth() / 2;
-//            int y1 = insets.top + a.getY() + a.getHeight() / 2;
-//            int y2 = insets.top + b.getY() + b.getHeight() / 2;
-//            g2.drawLine(x1, y1, x2, y2);
-//            pre = next;
-//		}
-//	}
-
-	protected void endGame(boolean is_finished,int score) {
+	protected void endGame(boolean finished,int score) {
 		this.dispose();
 		FileWriter fw = null;
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss");
-		PreGamePage.clearInfoForFile("src/data/1.txt");
         try{
             fw = new FileWriter("src/data/1.txt",true);
-            fw.write(username+", "+score+", "+df.format(new Date()));
-        } catch(Exception e){
+            fw.write("\n"+username+", "+score+", 1000/3/1");//need to use timer
+            
+        }catch(Exception e){
             e.printStackTrace();
-        } finally{
+        }finally{
             if(null != fw){
                     try {
 						fw.close();
@@ -139,12 +119,11 @@ public class GamePage extends JFrame {
 						e.printStackTrace();
 					}
             }
-        }        
-        Point p = g.getLocation();
-		PostGamePage postgame=new PostGamePage(is_finished,GameSize,LEVEL,username,this);
+        }
+		PostGamePage postgame=new PostGamePage(finished,GameSize,LEVEL,username,this);
 		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		postgame.setLayout(null);
-		postgame.setLocation(p);
+		
 		postgame.setResizable(false);
 	}
 	
