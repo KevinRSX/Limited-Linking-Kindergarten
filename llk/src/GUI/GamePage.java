@@ -136,8 +136,8 @@ public class GamePage extends JFrame implements Stoppable{
             fw.write("\n" + username+", " + score + ", " + dtf.format(localDate));
         } catch(Exception e) {
             e.printStackTrace();
-        } finally{
-            if(null != fw){
+        } finally {
+            if(null != fw) {
                     try {
 						fw.close();
 					} catch (IOException e) {
@@ -145,7 +145,7 @@ public class GamePage extends JFrame implements Stoppable{
 					}
             }
         }
-        Point p = this.getLocation();
+        Point p = g.getLocation();
 		PostGamePage postgame=new PostGamePage(is_finished,GameSize,LEVEL,username,this);
 		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		postgame.setLayout(null);
