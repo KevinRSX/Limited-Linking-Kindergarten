@@ -17,6 +17,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import GUI.Timer.TimerChangeException;
+import GUI.Timer.TimerTerminateErrorException;
+
 public class Board extends JPanel implements MouseListener {
 	
 	/**
@@ -388,7 +391,11 @@ public class Board extends JPanel implements MouseListener {
 				ArrayList<Point> allTurningPoints = new ArrayList<>();
 				if ((allTurningPoints = getTurningPoints(rac1, rac2)) != null) {
 					// cancel
-					
+					try {
+						gamePage.incTime();
+					} catch (TimerChangeException e1) {
+						e1.printStackTrace();
+					}
 					j.setIcon(null);
 					j.setBorder(null);
 					selected.setIcon(null);
@@ -403,10 +410,22 @@ public class Board extends JPanel implements MouseListener {
 					path = allTurningPoints;
 					gamePage.repaint();
 					if(isFinished()) {
+						try {
+							gamePage.stopTimer();
+						} catch (TimerTerminateErrorException e1) {
+							e1.printStackTrace();
+						}
 						gamePage.endGame(true,score);
 					}
 				}
 				else { // cannot be cancelled
+					if (!rac1.equals(rac2)) {
+						try {
+							gamePage.decTime();
+						} catch (TimerChangeException e1) {
+							e1.printStackTrace();
+					}
+					}
 					selected.setBorder(null);
 				}
 				selected = null;

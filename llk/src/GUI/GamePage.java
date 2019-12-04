@@ -1,6 +1,7 @@
 package GUI;
 
 import GUI.Timer.Timer;
+import GUI.Timer.TimerChangeException;
 import GUI.Timer.TimerStartErrorException;
 import GUI.Timer.TimerTerminateErrorException;
 import GUI.Timer.Stoppable;
@@ -217,6 +218,14 @@ public class GamePage extends JFrame implements Stoppable{
 	
 	public void stopTimer() throws TimerTerminateErrorException {
 		timer.cancel();
+	}
+	
+	public void incTime() throws TimerChangeException {
+		timer.increaseTime();
+	}
+	
+	public void decTime() throws TimerChangeException {
+		timer.decreaseTime();
 	}
 
 	@Override

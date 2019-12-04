@@ -62,13 +62,13 @@ public class PostGamePage extends JFrame {
 	
 	private void showMenu() {
 		if(is_finished) {
-			this.label= new JLabel("Congratulation! \n Score higher next time!");
+			this.label= new JLabel("Congratulation!");
 		}
 		else {
-			this.label=new JLabel("You FAILED.. \n Add oil next time!");
+			this.label=new JLabel("You FAILED..");
 		}		
 		this.label.setFont(new Font("acefont-family", Font.BOLD, 30));
-		this.label.setBounds(210,150,400,45);
+		this.label.setBounds(240,150,400,45);
 		this.label.setForeground(Color.RED);
 		Dimension d = label.getPreferredSize();
 	    label.setPreferredSize(new Dimension(d.width+60,d.height));

@@ -72,7 +72,7 @@ public class PreGamePage extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		label = new JLabel("Please Input User Name"); 
 		label.setFont(new Font("acefont-family", Font.BOLD, 22));
-		label.setBounds(210,200,250,45);
+		label.setBounds(210,200,300,45);
 		Dimension d = label.getPreferredSize();
 	    label.setPreferredSize(new Dimension(d.width+60,d.height));
 
