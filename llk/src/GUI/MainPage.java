@@ -91,17 +91,14 @@ public class MainPage extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		start = new JButton("Start");
 		start.setFont(new Font("acefont-family", Font.BOLD, 25));
-		start.setBackground(Color.RED);
 		start.setBounds(230, 150, 150, 40);
 
 		score = new JButton("Scores");
 		score.setFont(new Font("acefont-family", Font.BOLD, 25));
-		score.setBackground(Color.GREEN);
 		score.setBounds(230, 200, 150, 40);
 		 
 		setting = new JButton("Settings");
      	setting.setFont(new Font("acefont-family", Font.BOLD, 25));
-     	setting.setBackground(Color.BLUE);
 	    setting.setBounds(230, 250, 150, 40);
 
 		add(start);
