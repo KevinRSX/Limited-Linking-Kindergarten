@@ -20,7 +20,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.SwingConstants;
 
 import GUI.Score.ScoreBoard;
 
@@ -35,7 +34,7 @@ public class PostGamePage extends JFrame {
 	private PostGamePage postgame;
 	private ScorePage scorepage;
 	
-	public PostGamePage(boolean is_finished, int gamesize, int level, String username, GamePage gp) {
+	public PostGamePage(boolean finished, int gamesize,int level,String username,GamePage gp) {
 		super("Limited Time");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
 		setSize(700, 600);
@@ -48,7 +47,7 @@ public class PostGamePage extends JFrame {
 		j.setOpaque(false);
 		getLayeredPane().add(back, Integer.valueOf(Integer.MIN_VALUE));
 		setVisible(true);
-		this.is_finished=is_finished;
+		this.is_finished=finished;
 		this.LEVEL=level;
 		this.GameSize=gamesize;
 		this.username=username;
@@ -66,7 +65,7 @@ public class PostGamePage extends JFrame {
 			this.label= new JLabel("Congratulation! \n Score higher next time!");
 		}
 		else {
-			this.label=new JLabel("You FAILED.. /n Add oil next time!");
+			this.label=new JLabel("You FAILED.. \n Add oil next time!");
 		}		
 		this.label.setFont(new Font("acefont-family", Font.BOLD, 30));
 		this.label.setBounds(210,150,400,45);

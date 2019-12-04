@@ -21,7 +21,6 @@ import java.time.format.DateTimeFormatter;
 //import java.util.Timer;
 //import java.util.TimerTask;
 
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -137,8 +136,8 @@ public class GamePage extends JFrame implements Stoppable{
             fw.write("\n" + username+", " + score + ", " + dtf.format(localDate));
         } catch(Exception e) {
             e.printStackTrace();
-        } finally {
-            if(null != fw) {
+        } finally{
+            if(null != fw){
                     try {
 						fw.close();
 					} catch (IOException e) {
@@ -146,12 +145,11 @@ public class GamePage extends JFrame implements Stoppable{
 					}
             }
         }
-        Point p = g.getLocation();
+        Point p = this.getLocation();
 		PostGamePage postgame=new PostGamePage(is_finished,GameSize,LEVEL,username,this);
 		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		postgame.setLayout(null);
 		postgame.setLocation(p);
-		
 		postgame.setResizable(false);
 	}
 	

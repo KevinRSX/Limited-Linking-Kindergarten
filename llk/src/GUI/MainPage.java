@@ -109,7 +109,7 @@ public class MainPage extends JFrame implements ActionListener {
 	
 	private void showBackground() {
 		// TODO Auto-generated method stub
-	 	ImageIcon background = new ImageIcon(getClass().getResource("/images/background.jpg"));
+	 	ImageIcon background = new ImageIcon(getClass().getResource("/images/home.jpg"));
         back = new JLabel(background);
         back.setBounds(0, 0, getWidth(), getHeight());
         JPanel j = (JPanel)getContentPane();
