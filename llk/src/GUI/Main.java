@@ -15,7 +15,8 @@ public class Main {
 		pregame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pregame.setVisible(true);
 		pregame.setResizable(false);
-	
+		PreGamePage.clearInfoForFile("src/data/1.txt");
+
 //		if(p == null) {
 //			p = new PlaySound();
 //				p.open("sounds/background.wav");	

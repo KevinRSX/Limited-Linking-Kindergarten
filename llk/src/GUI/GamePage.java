@@ -17,10 +17,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 //import java.util.Timer;
 //import java.util.TimerTask;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -130,11 +132,12 @@ public class GamePage extends JFrame implements Stoppable{
 	protected void endGame(boolean is_finished, int score) {
 		this.dispose();
 		FileWriter fw = null;
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-		LocalDate localDate = LocalDate.now();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss");
+		score+=timer.getRemainingTime()*5;
+		PreGamePage.clearInfoForFile("src/data/1.txt");
         try {
             fw = new FileWriter("src/data/1.txt",true);
-            fw.write("\n" + username+", " + score + ", " + dtf.format(localDate));
+            fw.write(username+", " + score + ", " + df.format(new Date()));
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
@@ -227,10 +230,12 @@ public class GamePage extends JFrame implements Stoppable{
 	public void decTime() throws TimerChangeException {
 		timer.decreaseTime();
 	}
-
+	
+	
 	@Override
 	public boolean stop() {
-		endGame(false, 0);
+		int score=((GameSize-2)*(GameSize-2)-jpanel.remainingNum())*10;
+		endGame(false, score);
 		return true;
 	}
 }

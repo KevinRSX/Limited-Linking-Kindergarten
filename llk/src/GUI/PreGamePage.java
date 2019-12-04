@@ -12,6 +12,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
@@ -41,7 +43,7 @@ public class PreGamePage extends JFrame implements ActionListener {
 	public PreGamePage(int i) {
 		super("Limited Linking Kindergarten -- version 1.0.0");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
-		setSize(900, 894);
+		setSize(650, 500);
 		setLayout(null);
 		
 		showBackground();
@@ -49,6 +51,17 @@ public class PreGamePage extends JFrame implements ActionListener {
 		adapter();
 		
 	}
+	
+	public static void clearInfoForFile(String fileName) {
+        try {
+            FileWriter fileWriter =new FileWriter(fileName);
+            fileWriter.write("");
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	public static void setMainPageLocation(Point p) {
 		mainpage.setLocation(p);
@@ -72,17 +85,17 @@ public class PreGamePage extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		label = new JLabel("Please Input User Name"); 
 		label.setFont(new Font("acefont-family", Font.BOLD, 22));
-		label.setBounds(210,200,300,45);
+		label.setBounds(180,150,300,45);
 		Dimension d = label.getPreferredSize();
 	    label.setPreferredSize(new Dimension(d.width+60,d.height));
 
 		textField = new JTextField(20);
 		textField.setFont(new Font("acefont-family", Font.BOLD, 25));
-		textField.setBounds(210,250,250,40);
+		textField.setBounds(180,200,250,40);
 
 		button  = new JButton("submit");
 		button.setFont(new Font("acefont-family", Font.BOLD, 25));
-		button.setBounds(260,300,150,40);
+		button.setBounds(230,250,150,40);
 		
 		add(label);
 		add(textField);
@@ -108,7 +121,7 @@ public class PreGamePage extends JFrame implements ActionListener {
 			return false;
 		}
 		else {
-			JOptionPane.showMessageDialog(this,"Welcome to Limited-Linking-Kindergarten, " + name + "!");
+			JOptionPane.showMessageDialog(this,"Welcome to Limited-Linking-Kindergarten,	 " + name );
 			return true;
 		}
 	

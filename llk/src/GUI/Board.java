@@ -42,7 +42,7 @@ public class Board extends JPanel implements MouseListener {
     
 	public Board(int GameSize) {
 		this.GameSize = GameSize;
-		this.score=0;
+		this.score=(GameSize-2)*(GameSize-2)*10;
 		selected = null;
 		grids = new JLabel[GameSize][GameSize];
 		cancelled = new boolean[GameSize][GameSize];
