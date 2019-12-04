@@ -101,16 +101,15 @@ public class GamePage extends JFrame {
 	    jpanel.showPath(g2, getInsets());
 	}
 	
-	protected void endGame(boolean finished,int score) {
+	protected void endGame(boolean is_finished,int score) {
 		this.dispose();
 		FileWriter fw = null;
         try{
             fw = new FileWriter("src/data/1.txt",true);
-            fw.write("\n"+username+", "+score+", 1000/3/1");//need to use timer
-            
-        }catch(Exception e){
+            fw.write("\n"+username+", "+score+", 1000/3/1"); //need to use timer
+        } catch(Exception e){
             e.printStackTrace();
-        }finally{
+        } finally{
             if(null != fw){
                     try {
 						fw.close();
@@ -119,9 +118,11 @@ public class GamePage extends JFrame {
 					}
             }
         }
-		PostGamePage postgame=new PostGamePage(finished,GameSize,LEVEL,username,this);
+        Point p = g.getLocation();
+		PostGamePage postgame=new PostGamePage(is_finished,GameSize,LEVEL,username,this);
 		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		postgame.setLayout(null);
+		postgame.setLocation(p);
 		
 		postgame.setResizable(false);
 	}
