@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.awt.Dimension;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
@@ -24,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import GUI.Score.ScoreBoard;
 
@@ -85,7 +87,9 @@ public class PreGamePage extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		label = new JLabel("Please Input User Name"); 
 		label.setFont(new Font("acefont-family", Font.BOLD, 22));
-		label.setBounds(210,200,400,45);
+		label.setBounds(210,200,300,45);
+		Dimension d = label.getPreferredSize();
+	    label.setPreferredSize(new Dimension(d.width+60,d.height));
 
 		textField = new JTextField(40);
 		textField.setFont(new Font("acefont-family", Font.BOLD, 25));
@@ -119,7 +123,7 @@ public class PreGamePage extends JFrame implements ActionListener {
 			return false;
 		}
 		else {
-			JOptionPane.showMessageDialog(this,"Welcome to Limited-Linking-Kindergarten£º" + name);
+			JOptionPane.showMessageDialog(this,"Welcome to Limited-Linking-Kindergarten: " + name + "!");
 			return true;
 		}
 	
@@ -129,10 +133,12 @@ public class PreGamePage extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (onButtonOk()) {
+			Point p = this.getLocation();
 			Main.disposePreGamePage();
 			mainpage = new MainPage(name);
 			mainpage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			mainpage.setLayout(null);
+			mainpage.setLocation(p);
 			mainpage.setVisible(true);
 			mainpage.setResizable(false);
 		}

@@ -7,10 +7,9 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Stack;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -20,28 +19,21 @@ import javax.swing.JPanel;
 
 public class Board extends JPanel implements MouseListener {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final int W = 50; // Width of a single grid
-    private Icon grid_icon[]; 
-    private Icon path_icon[];     
+    private Icon grid_icon[];    
 
 	private ArrayList<Integer> images_t; // helper arraylist to generate grids
-	private ArrayList<JLabel> label_arr;
 	private JLabel[][] grids;
 	private boolean[][] cancelled;
-    private int[] all_paths;
     private JLabel selected;
-    private ArrayList<RowAndColumn> path;
+    private ArrayList<Point> path;
     private GamePage gamePage;
     
-    private int index = -1;			
-    @SuppressWarnings("unused")
-	private Point p_index;			
-    private int k;         
-    
-    private int sum;
-//    @SuppressWarnings("rawtypes")
-//	private ArrayList path;      
-          
     private int GameSize; // including edge
     private int score;
     
@@ -58,7 +50,7 @@ public class Board extends JPanel implements MouseListener {
 		}
 		
 		setLayout(new GridLayout(GameSize, GameSize));
-		setBounds((700 - GameSize * W) / 2,(600 - GameSize * W) / 2, GameSize * W, GameSize * W);
+		setBounds((800 - GameSize * W) / 2, (700 - GameSize * W) / 2, GameSize * W, GameSize * W);
 		setOpaque(false);
 		initMap();
 		showGame();
@@ -199,39 +191,13 @@ public class Board extends JPanel implements MouseListener {
 		return null;
 	}
 	
-	
-//	public boolean dfs(int sx, int sy, int nx, int ny, int tx, int ty) {
-//		if (((nx + 1 == tx) && (ny == ty)) || ((nx - 1 == tx) && (ny == ty))
-//				|| ((ny + 1 == ty) && (nx == tx)) || ((ny - 1 == ty) && (nx == tx))) {
-//			return true;
-//		}
-//		if (nx + 1 < GameSize && twoLineEliminate(sx, sy, nx + 1, ny)) {
-//			if (dfs(sx, sy, nx + 1, ny, tx, ty)) {
-//				path.add(new RowAndColumn(nx + 1, ny));
-//				return true;
-//			}
-//		}
-//		if (nx - 1 >= 0 && twoLineEliminate(sx, sy, nx + 1, ny)) {
-//			if (dfs(sx, sy, nx - 1, ny, tx, ty)) {
-//				path.add(new RowAndColumn(nx - 1, ny));
-//				return true;
-//			}
-//		}
-//		if (ny + 1 < GameSize && twoLineEliminate(sx, sy, nx, ny + 1)) {
-//			if (dfs(sx, sy, nx, ny + 1, tx, ty)) {
-//				path.add(new RowAndColumn(nx, ny + 1));
-//				return true;
-//			}
-//		}
-//		if (ny - 1 < GameSize && twoLineEliminate(sx, sy, nx, ny - 1)) {
-//			if (dfs(sx, sy, nx, ny - 1, tx, ty)) {
-//				path.add(new RowAndColumn(nx, ny - 1));
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-	
+	public void clearBorders() {
+		for (int i = 1; i < GameSize - 1; i++) {
+			for (int j = 1; j < GameSize - 1; j++) {
+				grids[i][j].setBorder(null);
+			}
+		}
+	}
 	
 	
 	/*-----------------------------functional methods-----------------------------*/
@@ -271,19 +237,13 @@ public class Board extends JPanel implements MouseListener {
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes" })
 	public void initMap() {
 		images_t = new ArrayList<Integer>();
-//		path = new ArrayList();
+		path = new ArrayList<>();
 		grid_icon = new Icon[10];
-		path_icon = new Icon[6];
-		all_paths = new int[GameSize * GameSize];
 		
 		for(int i = 0; i < grid_icon.length; i++) {
 			grid_icon[i] = new ImageIcon(getClass().getResource("/images/" + "fruit_"+ (i + 1) + ".jpg"));
-		}
-		for(int i = 0;i < path_icon.length; i++) {
-			path_icon[i] = new ImageIcon(getClass().getResource("/images/" + "line_" + (i + 1) + ".png"));
 		}
 		
 		for(int i = 0; images_t.size() < (GameSize - 2) * (GameSize - 2); i++) {
@@ -293,7 +253,6 @@ public class Board extends JPanel implements MouseListener {
 			}
 			images_t.add(i % 10);
 		}
-		sum = images_t.size();	
 	}
 	
 	public void shuffle() {
@@ -377,11 +336,45 @@ public class Board extends JPanel implements MouseListener {
 					}
 		return false;					
 	}
+	public void showHint() {
+		clearBorders();
+		for(int x1 = 1; x1 < GameSize - 1; x1++)
+			for(int y1 = 1; y1 < GameSize - 1; y1++)
+				for(int x2 = 1; x2 < GameSize - 1; x2++)
+					for(int y2 = 1; y2 < GameSize - 1; y2++)
+					{
+						if(grids[x1][y1].getIcon() != null && grids[x2][y2].getIcon() != null && isSolvable(x1, y1, x2, y2))
+						{
+							grids[x1][y1].setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
+							grids[x2][y2].setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
+							return;
+						}
+					}
+	}
 	
-	//judge if all the grids are cancelled
 	public boolean isFinished() {
-		if(remainingNum()==0)return true;
-		return false;
+		return remainingNum() == 0;
+	}
+	
+	public void showPath(Graphics2D g2, Insets insets) {
+		if (path != null && path.size() > 0) {
+	    	Point pre = path.get(0);
+			for (int i = 1; i < path.size(); i++) {
+				Point next = path.get(i);
+				int sx = (800 - GameSize * W) / 2;
+				int sy = (700 - GameSize * W) / 2;
+				int x1 = insets.left + sx + pre.y * W + W / 2;
+	            int x2 = insets.left + sx + next.y * W + W / 2;
+	            int y1 = insets.top + sy + pre.x * W + W / 2;
+	            int y2 = insets.top + sy + next.x * W + W / 2;
+	            g2.drawLine(x1, y1, x2, y2);
+	            pre = next;
+	            if (i == 1) {
+	            	 g2.draw(new Ellipse2D.Float(x1 - 2, y1 - 2, 4, 4));
+	            }
+	            g2.draw(new Ellipse2D.Float(x2 - 2, y2 - 2, 4, 4));
+			}
+		}
 	}
 	/*-----------------------------events-----------------------------*/
 	@Override
@@ -391,9 +384,9 @@ public class Board extends JPanel implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		path = new ArrayList<>();
 		JLabel j = (JLabel)e.getComponent();
+		clearBorders();
 		if (j.getIcon() != null) {
 			if (selected == null) { // first selected
 				j.setBorder(BorderFactory.createLineBorder(Color.PINK, 2));
@@ -403,9 +396,9 @@ public class Board extends JPanel implements MouseListener {
 				Point rac1 = getIndexFromGrid(selected);
 				Point rac2 = getIndexFromGrid(j);
 				ArrayList<Point> allTurningPoints = new ArrayList<>();
-				if (getTurningPoints(rac1, rac2) != null) {
+				if ((allTurningPoints = getTurningPoints(rac1, rac2)) != null) {
 					// cancel
-					j.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
+					
 					j.setIcon(null);
 					j.setBorder(null);
 					selected.setIcon(null);
@@ -413,10 +406,12 @@ public class Board extends JPanel implements MouseListener {
 					cancelled[rac1.x][rac1.y] = true;
 					cancelled[rac2.x][rac2.y] = true;
 					this.score+=10;
+					
 					// draw path
 					allTurningPoints.add(0, rac1);
 					allTurningPoints.add(rac2);
-					gamePage.setPath(allTurningPoints);
+					path = allTurningPoints;
+					gamePage.repaint();
 					if(isFinished()) {
 						gamePage.endGame(true,score);
 					}
@@ -427,14 +422,13 @@ public class Board extends JPanel implements MouseListener {
 				selected = null;
 			}
 			
-			while (!isSolvable() && remainingNum() > 0) { // remaining num is just for testing
+			while (!isSolvable() && remainingNum() > 0) {
 				System.out.println("Not solvable, shuffling");
 				shuffle();
 			}
 		}
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
