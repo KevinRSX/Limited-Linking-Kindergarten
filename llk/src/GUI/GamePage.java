@@ -1,22 +1,26 @@
 package GUI;
 
+import GUI.Timer.Timer;
+import GUI.Timer.TimerStartErrorException;
+import GUI.Timer.TimerTerminateErrorException;
+import GUI.Timer.Stoppable;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+//import java.util.Timer;
+//import java.util.TimerTask;
+
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,7 +29,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-public class GamePage extends JFrame {
+@SuppressWarnings("serial")
+public class GamePage extends JFrame implements Stoppable{
 	private JLabel back;
 	private GamePage g;
 	private JButton home, restart, hint;
@@ -66,16 +71,36 @@ public class GamePage extends JFrame {
 	}
 
 	private void showTime() {
+		int time_to_give, bonus_to_give, pun_to_give;
+		if (GameSize - 2 == 2) {
+			time_to_give = 15;
+			bonus_to_give = pun_to_give = 1;
+		} else {
+			time_to_give = (GameSize - 2) * 15;
+			pun_to_give = (GameSize - 2)/2 + 1;
+		}
+		if (GameSize - 2 == 4 || GameSize - 2 == 6) {
+			bonus_to_give = 1;
+		} else {
+			bonus_to_give = 2;
+		}
 		jpb = new JProgressBar();
 		jpb.setOrientation(JProgressBar.HORIZONTAL);
 		jpb.setMinimum(0);
-		jpb.setMaximum(100);
+		jpb.setMaximum(time_to_give);
 		jpb.setValue(0);
 		jpb.setBackground(new Color(238,226,29));
 		jpb.setBounds(175, 25, 350, 12);
 		add(jpb);
 		
-		timer = new Timer();
+		timer = Timer.getInstance();
+		timer.setUp(this, jpb, time_to_give, bonus_to_give, pun_to_give);
+		try {
+			timer.start();
+		} catch (TimerStartErrorException e) {
+			e.printStackTrace();
+		}
+		/*
 		timer.scheduleAtFixedRate(new TimerTask() {
 			
 			@Override
@@ -88,6 +113,7 @@ public class GamePage extends JFrame {
 				}
 			}
 		}, 0, 900);
+		*/
 	}
 
 	@Override
@@ -101,16 +127,18 @@ public class GamePage extends JFrame {
 	    jpanel.showPath(g2, getInsets());
 	}
 	
-	protected void endGame(boolean is_finished,int score) {
+	protected void endGame(boolean is_finished, int score) {
 		this.dispose();
 		FileWriter fw = null;
-        try{
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		LocalDate localDate = LocalDate.now();
+        try {
             fw = new FileWriter("src/data/1.txt",true);
-            fw.write("\n"+username+", "+score+", 1000/3/1"); //need to use timer
-        } catch(Exception e){
+            fw.write("\n" + username+", " + score + ", " + dtf.format(localDate));
+        } catch(Exception e) {
             e.printStackTrace();
-        } finally{
-            if(null != fw){
+        } finally {
+            if(null != fw) {
                     try {
 						fw.close();
 					} catch (IOException e) {
@@ -147,13 +175,23 @@ public class GamePage extends JFrame {
 				g.dispose();
 				Main.main(null);
 				PreGamePage.setMainPageLocation(p);
-				timer.cancel();
+				try {
+					timer.cancel();
+				} catch (TimerTerminateErrorException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 
 		this.restart.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(timer != null)
+					try {
+						timer.cancel();
+					} catch (TimerTerminateErrorException e1) {
+						e1.printStackTrace();
+					}
 				Point p = g.getLocation();
 				g.dispose();
 				GamePage GamePage;
@@ -163,8 +201,7 @@ public class GamePage extends JFrame {
 				
 				GamePage.setResizable(false);
 				GamePage.setLocation(p);
-				if(timer != null)
-					timer.cancel();
+				
 			}
 		});
 		
@@ -178,5 +215,15 @@ public class GamePage extends JFrame {
 				}
 			}
 		});
+	}
+	
+	public void stopTimer() throws TimerTerminateErrorException {
+		timer.cancel();
+	}
+
+	@Override
+	public boolean stop() {
+		endGame(false, 0);
+		return true;
 	}
 }

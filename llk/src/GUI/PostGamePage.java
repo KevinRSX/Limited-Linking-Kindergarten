@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -62,15 +63,16 @@ public class PostGamePage extends JFrame {
 	
 	private void showMenu() {
 		if(is_finished) {
-			this.label= new JLabel("Congratulation!");
+			this.label= new JLabel("Congratulation! \n Score higher next time!");
 		}
 		else {
-			this.label=new JLabel("Add oil next time!");
+			this.label=new JLabel("You FAILED.. /n Add oil next time!");
 		}		
 		this.label.setFont(new Font("acefont-family", Font.BOLD, 30));
-		this.label.setBounds(210,150,250,45);
+		this.label.setBounds(210,150,400,45);
 		this.label.setForeground(Color.RED);
-		this.label.setHorizontalAlignment(SwingConstants.CENTER);
+		Dimension d = label.getPreferredSize();
+	    label.setPreferredSize(new Dimension(d.width+60,d.height));
 		this.add(this.label);
 		
 		this.score=new JButton("Score");
