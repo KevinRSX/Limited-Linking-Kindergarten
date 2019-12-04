@@ -33,6 +33,7 @@ public class MainPage extends JFrame implements ActionListener {
 	private Dialog dialog;
 	private ScorePage s;
 	private String username;
+	private ScoreBoard scoreboard;
 	
 	public MainPage(String name) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
@@ -45,12 +46,10 @@ public class MainPage extends JFrame implements ActionListener {
 		adapter();
 		
 		username=name;
+		scoreboard = new ScoreBoard();
 		f = this;
 		dialog = new Dialog(f);
 		dialog.setVisible(false);
-		ScoreBoard.showScoreBoard("src/data/1.txt");
-		Object[][] arr = ScoreBoard.getScores();
-		s = new ScorePage(arr, f);
 		
 	}
 	
@@ -70,6 +69,9 @@ public class MainPage extends JFrame implements ActionListener {
 		score.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				scoreboard.showScoreBoard("src/data/1.txt");
+				Object[][] arr = scoreboard.getScores();
+				s = new ScorePage(arr, f);
 				s.setVisible(true);
 				s.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			}
@@ -120,13 +122,15 @@ public class MainPage extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		Point p = PreGamePage.getMainPageLocation();
-		PreGamePage.disposeMainPage();
-		GamePage gamePage = new GamePage(this.dialog.getGame_size(), username,-1);
-		gamePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gamePage.setLayout(null);
-		gamePage.setResizable(false);
-		gamePage.setLocation(p);
+
+		Point p = Main.getMainPageLocation();
+		Main.disposeMainPage();
+		
+		PreGamePage pregamePage = new PreGamePage(this.dialog.getGame_size());
+		pregamePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pregamePage.setLayout(null);
+		pregamePage.setResizable(false);
+		pregamePage.setLocation(p);
 	}
 
 }

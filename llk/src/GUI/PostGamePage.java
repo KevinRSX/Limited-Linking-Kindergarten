@@ -26,15 +26,15 @@ import GUI.Score.ScoreBoard;
 public class PostGamePage extends JFrame {
 	private JLabel back;
 	private int GameSize;
-	private int LEVEL;
 	private JLabel label;
 	private JButton home, restart,score;
 	private boolean is_finished;
 	private String username;
 	private PostGamePage postgame;
 	private ScorePage scorepage;
+	private ScoreBoard scoreboard;
 	
-	public PostGamePage(boolean finished, int gamesize,int level,String username,GamePage gp) {
+	public PostGamePage(boolean finished, int gamesize,String username,GamePage gp) {
 		super("Limited Time");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
 		setSize(700, 600);
@@ -48,13 +48,13 @@ public class PostGamePage extends JFrame {
 		getLayeredPane().add(back, Integer.valueOf(Integer.MIN_VALUE));
 		setVisible(true);
 		this.is_finished=finished;
-		this.LEVEL=level;
 		this.GameSize=gamesize;
 		this.username=username;
 		this.postgame=this;
-
-		ScoreBoard.showScoreBoard("src/data/1.txt");
-		Object[][] arr = ScoreBoard.getScores();
+		
+		scoreboard = new ScoreBoard();
+		scoreboard.showScoreBoard("src/data/1.txt");
+		Object[][] arr = scoreboard.getScores();
 		scorepage = new ScorePage(arr, this);
 		
 		showMenu();
@@ -67,7 +67,7 @@ public class PostGamePage extends JFrame {
 		else {
 			this.label=new JLabel("You FAILED..");
 		}		
-		this.label.setFont(new Font("acefont-family", Font.BOLD, 30));
+		this.label.setFont(new Font("acefont-family", Font.BOLD, 25));
 		this.label.setBounds(240,150,400,45);
 		this.label.setForeground(Color.RED);
 		Dimension d = label.getPreferredSize();
@@ -92,7 +92,7 @@ public class PostGamePage extends JFrame {
 				Point p = postgame.getLocation();
 				postgame.dispose();
 				Main.main(null);
-				PreGamePage.setMainPageLocation(p);
+//				PreGamePage.setMainPageLocation(p);
 			}
 		});
 
@@ -102,7 +102,7 @@ public class PostGamePage extends JFrame {
 				Point p = postgame.getLocation();
 				postgame.dispose();
 				GamePage GamePage;
-				GamePage = new GamePage(GameSize - 2, username,LEVEL);
+				GamePage = new GamePage(GameSize - 2, username);
 				GamePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				GamePage.setLayout(null);
 				GamePage.setResizable(false);

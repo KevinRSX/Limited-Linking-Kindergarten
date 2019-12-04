@@ -31,20 +31,26 @@ import GUI.Score.ScoreBoard;
 
 
 @SuppressWarnings("serial")
-public class PreGamePage extends JFrame implements ActionListener {
+public class PreGamePage extends JFrame{
 	
 	private JLabel back;
 	private JLabel label;
 	private JTextField textField;
-	private JButton button;
+	private JButton submit, cancel;
 	private String name;
-	private static MainPage mainpage;
+	private int gamesize;
+	private PreGamePage pregamepage;
 	
-	public PreGamePage(int i) {
+	public PreGamePage(int gamesize) {
 		super("Limited Linking Kindergarten -- version 1.0.0");
+		this.gamesize = gamesize;
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
 		setSize(650, 500);
 		setLayout(null);
+		
+		setVisible(true);
+		this.pregamepage = this;
 		
 		showBackground();
 		showInfo();
@@ -52,33 +58,31 @@ public class PreGamePage extends JFrame implements ActionListener {
 		
 	}
 	
-	public static void clearInfoForFile(String fileName) {
-        try {
-            FileWriter fileWriter =new FileWriter(fileName);
-            fileWriter.write("");
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-	
-	public static void setMainPageLocation(Point p) {
-		mainpage.setLocation(p);
-	}
-	
-	public static Point getMainPageLocation() {
-		return mainpage.getLocation();
-	}
-	
-	public static void disposeMainPage() {
-		mainpage.dispose();
-	}
-	
 	private void adapter() {
 		// TODO Auto-generated method stub
-		button.addActionListener(this);
-		
+		submit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (onButtonOk()) {
+					Point p = pregamepage.getLocation();
+					pregamepage.dispose();
+					GamePage gamepage = new GamePage(pregamepage.gamesize, pregamepage.name);
+					gamepage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					gamepage.setLayout(null);
+					gamepage.setLocation(p);
+					gamepage.setVisible(true);
+					gamepage.setResizable(false);
+				}
+			}
+		});
+		cancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Point p = pregamepage.getLocation();
+				pregamepage.dispose();
+				Main.main(null);
+			}
+		});
 	}
 	
 	private void showInfo() {
@@ -93,13 +97,18 @@ public class PreGamePage extends JFrame implements ActionListener {
 		textField.setFont(new Font("acefont-family", Font.BOLD, 25));
 		textField.setBounds(180,200,250,40);
 
-		button  = new JButton("submit");
-		button.setFont(new Font("acefont-family", Font.BOLD, 25));
-		button.setBounds(230,250,150,40);
+		submit  = new JButton("submit");
+		submit.setFont(new Font("acefont-family", Font.BOLD, 25));
+		submit.setBounds(230,250,150,40);
+		
+		cancel  = new JButton("cancel");
+		cancel.setFont(new Font("acefont-family", Font.BOLD, 25));
+		cancel.setBounds(230,300,150,40);
 		
 		add(label);
 		add(textField);
-		add(button);
+		add(submit);
+		add(cancel);
 	}
 	
 	private void showBackground() {
@@ -125,21 +134,6 @@ public class PreGamePage extends JFrame implements ActionListener {
 			return true;
 		}
 	
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if (onButtonOk()) {
-			Point p = this.getLocation();
-			Main.disposePreGamePage();
-			mainpage = new MainPage(name);
-			mainpage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			mainpage.setLayout(null);
-			mainpage.setLocation(p);
-			mainpage.setVisible(true);
-			mainpage.setResizable(false);
-		}
 	}
 
 }

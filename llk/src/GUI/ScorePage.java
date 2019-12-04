@@ -21,13 +21,13 @@ public class ScorePage extends JDialog{
 
 	public ScorePage(Object[][] arr, JFrame f) {
 		super(f, true);
+		
 		setTitle("ScoreBoard");
 		setSize(400,400);
 		setBounds(f.getBounds().x+75, f.getBounds().y+75, 500, 350);
 		//ScorePanel = new JPanel();
 //		button = new JButton("save as");
 		Container ScorePanel = this.getContentPane();
-		arr = ScoreBoard.getScores();
 		ScoreTable = new JTable(arr, columnNames);
 		
 		placeComponents(ScorePanel);

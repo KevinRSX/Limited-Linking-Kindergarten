@@ -9,11 +9,11 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class ScoreBoard{
-    private static List<Record> list = new ArrayList<>();
-    private static  Object[][] arr = new Object[1000][3];
+    private List<Record> list = new ArrayList<>();
+    private  Object[][] arr = new Object[1000][3];
 
     
-    public static void showScoreBoard(String filepath){
+    public void showScoreBoard(String filepath){
     	String line = null;
         try{
             File file = new File(filepath);
@@ -44,10 +44,10 @@ public class ScoreBoard{
         }
     }
     
-    public static Object[][] getScores(){
+    public Object[][] getScores(){
     	int i = 0;
     	Iterator<Record> iterator = list.iterator();
-        while(iterator.hasNext()){
+        while(iterator.hasNext() && i < 100){
             Record m = iterator.next();
             arr[i][0] = m.getName();
             arr[i][1] = m.getScore();
@@ -58,21 +58,5 @@ public class ScoreBoard{
     	return arr;
     }
 
-    public static void write(String filepath, String content){
-        try{
-            File file = new File(filepath);
-            if(file.isFile() && file.exists()){
-                BufferedWriter out = new BufferedWriter(new FileWriter(filepath,true));
-                out.append(content);
-                out.append("\r\n");
-                out.close();
-            }
-            else{
-                System.out.println("Cannot find this file!");
-            }
-        }catch(Exception e){
-            System.out.println("Error");
-            e.printStackTrace();
-        }
-    }
+
 }

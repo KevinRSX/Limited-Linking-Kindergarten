@@ -5,26 +5,20 @@ import java.awt.Point;
 import javax.swing.JFrame;
 
 public class Main {
-	private static PreGamePage pregame = new PreGamePage(0);
-	public static void disposePreGamePage() {
-		pregame.dispose();
+	private static MainPage mainpage = new MainPage("Limited-Linking-Kindergarten");
+	public static void disposeMainPage() {
+		mainpage.dispose();
 	}
-//	static PlaySound p;
+	public static Point getMainPageLocation() {
+		return mainpage.getLocation();
+	}
+	public static void setMainPageLocation(Point p) {
+		mainpage.setLocation(p);
+	}
 	
 	public static void main(String agrs[]) {	      
-		pregame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pregame.setVisible(true);
-		pregame.setResizable(false);
-		PreGamePage.clearInfoForFile("src/data/1.txt");
-
-//		if(p == null) {
-//			p = new PlaySound();
-//				p.open("sounds/background.wav");	
-//				p.play();
-//				p.loop();
-//				p.start();
-//			
-//		}
-
+		mainpage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainpage.setVisible(true);
+		mainpage.setResizable(false);
    }
 }

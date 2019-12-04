@@ -36,7 +36,6 @@ public class GamePage extends JFrame implements Stoppable{
 	private JLabel back;
 	private GamePage g;
 	private JButton home, restart, hint;
-	private int LEVEL;
 	private int GameSize;
 	private String username;
 	private JProgressBar jpb;
@@ -46,10 +45,9 @@ public class GamePage extends JFrame implements Stoppable{
 	
 	
 	
-	public GamePage(int GameSize, String username, int t) {
+	public GamePage(int GameSize, String username) {
 		super("Link And Cancel!");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
-		LEVEL = t;
 		hintNum = 3;
 		this.GameSize = GameSize + 2;
 		setSize(800, 700);
@@ -131,13 +129,21 @@ public class GamePage extends JFrame implements Stoppable{
 	
 	protected void endGame(boolean is_finished, int score) {
 		this.dispose();
+		
+        Point p = g.getLocation();
+		PostGamePage postgame=new PostGamePage(is_finished,GameSize ,username,this);
+		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		postgame.setLayout(null);
+		postgame.setLocation(p);
+		postgame.setResizable(false);
+		
 		FileWriter fw = null;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss");
 		score+=timer.getRemainingTime()*5;
-		PreGamePage.clearInfoForFile("src/data/1.txt");
+//		PreGamePage.clearInfoForFile("src/data/1.txt");
         try {
             fw = new FileWriter("src/data/1.txt",true);
-            fw.write(username+", " + score + ", " + df.format(new Date()));
+            fw.write(username+", " + score + ", " + df.format(new Date()) + "\n");
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
@@ -149,12 +155,7 @@ public class GamePage extends JFrame implements Stoppable{
 					}
             }
         }
-        Point p = g.getLocation();
-		PostGamePage postgame=new PostGamePage(is_finished,GameSize,LEVEL,username,this);
-		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		postgame.setLayout(null);
-		postgame.setLocation(p);
-		postgame.setResizable(false);
+
 	}
 	
 	private void showMenu() {
@@ -176,7 +177,7 @@ public class GamePage extends JFrame implements Stoppable{
 				Point p = g.getLocation();
 				g.dispose();
 				Main.main(null);
-				PreGamePage.setMainPageLocation(p);
+//				PreGamePage.setMainPageLocation(p);
 				try {
 					timer.cancel();
 				} catch (TimerTerminateErrorException e1) {
@@ -197,7 +198,7 @@ public class GamePage extends JFrame implements Stoppable{
 				Point p = g.getLocation();
 				g.dispose();
 				GamePage GamePage;
-				GamePage = new GamePage(GameSize - 2, username, LEVEL);
+				GamePage = new GamePage(GameSize - 2, username);
 				GamePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				GamePage.setLayout(null);
 				
@@ -235,6 +236,12 @@ public class GamePage extends JFrame implements Stoppable{
 	@Override
 	public boolean stop() {
 		int score=((GameSize-2)*(GameSize-2)-jpanel.remainingNum())*10;
+		try {
+			this.stopTimer();
+		} catch (TimerTerminateErrorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		endGame(false, score);
 		return true;
 	}
