@@ -378,14 +378,10 @@ public class Board extends JPanel implements MouseListener {
 		return false;					
 	}
 	
+	//judge if all the grids are cancelled
 	public boolean isFinished() {
-		for(int x = 1; x < GameSize - 1; x++) {
-			for(int y = 1; y < GameSize - 1; y++) {
-				if (cancelled[x][y]==false)
-					return false;
-			}
-		}
-		return true;
+		if(remainingNum()==0)return true;
+		return false;
 	}
 	/*-----------------------------events-----------------------------*/
 	@Override

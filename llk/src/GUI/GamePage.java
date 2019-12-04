@@ -11,8 +11,10 @@ import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,7 +37,6 @@ public class GamePage extends JFrame {
 	private Board jpanel;
 	private Insets insets;
 	private ArrayList<Point> path;
-	
 	
 	public GamePage(int GameSize, String username, int t) {
 		super("Limited Time");
@@ -109,13 +110,15 @@ public class GamePage extends JFrame {
 //            pre = next;
 //		}
 //	}
+
 	protected void endGame(boolean finished,int score) {
 		this.dispose();
 		FileWriter fw = null;
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss");
+		PreGamePage.clearInfoForFile("src/data/1.txt");
         try{
             fw = new FileWriter("src/data/1.txt",true);
-            fw.write("\n"+username+", "+score+", 1000/3/1");//need to use timer
-            
+            fw.write(username+", "+score+", "+df.format(new Date()));
         }catch(Exception e){
             e.printStackTrace();
         }finally{
@@ -127,10 +130,10 @@ public class GamePage extends JFrame {
 					}
             }
         }
+        
 		PostGamePage postgame=new PostGamePage(finished,GameSize,LEVEL,username,this);
 		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		postgame.setLayout(null);
-		
 		postgame.setResizable(false);
 	}
 	
