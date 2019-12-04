@@ -33,8 +33,9 @@ public class PostGamePage extends JFrame {
 	private PostGamePage postgame;
 	private ScorePage scorepage;
 	private ScoreBoard scoreboard;
+	private int points;
 	
-	public PostGamePage(boolean finished, int gamesize,String username,GamePage gp) {
+	public PostGamePage(boolean finished, int gamesize,String username,GamePage gp, int points) {
 		super("Limited Time");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
 		setSize(700, 600);
@@ -45,12 +46,14 @@ public class PostGamePage extends JFrame {
 
 		JPanel j = (JPanel)getContentPane();
 		j.setOpaque(false);
+		j.setLayout(null);
 		getLayeredPane().add(back, Integer.valueOf(Integer.MIN_VALUE));
-		setVisible(true);
+
 		this.is_finished=finished;
 		this.GameSize=gamesize;
 		this.username=username;
 		this.postgame=this;
+		this.points = points;
 		
 		scoreboard = new ScoreBoard();
 		scoreboard.showScoreBoard("src/data/1.txt");
@@ -58,16 +61,17 @@ public class PostGamePage extends JFrame {
 		scorepage = new ScorePage(arr, this);
 		
 		showMenu();
+		setVisible(true);
 	}
 	
 	private void showMenu() {
 		if(is_finished) {
-			this.label= new JLabel("Congratulation!");
+			this.label= new JLabel("Score: " + points);
 		}
 		else {
 			this.label=new JLabel("You FAILED..");
 		}		
-		this.label.setFont(new Font("acefont-family", Font.BOLD, 25));
+		this.label.setFont(new Font("acefont-family", Font.BOLD, 35));
 		this.label.setBounds(240,150,400,45);
 		this.label.setForeground(Color.RED);
 		Dimension d = label.getPreferredSize();

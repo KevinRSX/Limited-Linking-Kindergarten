@@ -149,7 +149,7 @@ public class GamePage extends JFrame implements Stoppable{
         }
         
         Point p = g.getLocation();
-		PostGamePage postgame=new PostGamePage(is_finished,GameSize ,username,this);
+		PostGamePage postgame=new PostGamePage(is_finished, GameSize ,username,this, score);
 		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		postgame.setLayout(null);
 		postgame.setLocation(p);
@@ -235,12 +235,6 @@ public class GamePage extends JFrame implements Stoppable{
 	@Override
 	public boolean stop() {
 		int score=((GameSize-2)*(GameSize-2)-jpanel.remainingNum())*10;
-		try {
-			this.stopTimer();
-		} catch (TimerTerminateErrorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		endGame(false, score);
 		return true;
 	}
