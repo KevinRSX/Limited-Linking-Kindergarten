@@ -129,14 +129,6 @@ public class GamePage extends JFrame implements Stoppable{
 	
 	protected void endGame(boolean is_finished, int score) {
 		this.dispose();
-		
-        Point p = g.getLocation();
-		PostGamePage postgame=new PostGamePage(is_finished,GameSize ,username,this);
-		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		postgame.setLayout(null);
-		postgame.setLocation(p);
-		postgame.setResizable(false);
-		
 		FileWriter fw = null;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss");
 		score+=timer.getRemainingTime()*5;
@@ -155,6 +147,13 @@ public class GamePage extends JFrame implements Stoppable{
 					}
             }
         }
+        
+        Point p = g.getLocation();
+		PostGamePage postgame=new PostGamePage(is_finished,GameSize ,username,this);
+		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		postgame.setLayout(null);
+		postgame.setLocation(p);
+		postgame.setResizable(false);
 
 	}
 	
