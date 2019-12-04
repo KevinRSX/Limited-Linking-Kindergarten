@@ -1,10 +1,12 @@
 package GUI;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,16 +35,17 @@ public class GamePage extends JFrame {
 	private JProgressBar jpb;
 	private Timer timer; 
 	private Board jpanel;
-	private Insets insets;
-	private ArrayList<Point> path;
+	private int hintNum; // refactor here (state pattern)
+	
 	
 	
 	public GamePage(int GameSize, String username, int t) {
-		super("Limited Time");
+		super("Link And Cancel!");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
 		LEVEL = t;
+		hintNum = 3;
 		this.GameSize = GameSize + 2;
-		setSize(700, 600);
+		setSize(800, 700);
 		
 		ImageIcon background = new ImageIcon(getClass().getResource("/images/background.png"));
 		back = new JLabel(background);
@@ -86,29 +89,18 @@ public class GamePage extends JFrame {
 			}
 		}, 0, 900);
 	}
-	
-	public void setPath(ArrayList<Point> p) {
-		path = p;
+
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+	    Graphics2D g2 = (Graphics2D)g;
+	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);  
+	    g2.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, 
+	             BasicStroke.JOIN_ROUND, 1f));
+        g2.setColor(Color.CYAN);
+	    jpanel.showPath(g2, getInsets());
 	}
 	
-//	@Override
-//	public void paint(Graphics g) {
-//		super.paint(g);
-//	    Graphics2D g2 = (Graphics2D)g;
-//	    insets = getInsets();
-//		Point pre = path.get(0);
-//		for (int i = 1; i < path.size(); i++) {
-//			Point next = path.get(i);
-//			JLabel a = jpanel.getLabel(pre.x, pre.y);
-//			JLabel b = jpanel.getLabel(next.x, next.y);
-//			int x1 = insets.left + a.getX() + a.getWidth() / 2;
-//            int x2 = insets.left + b.getX() + b.getWidth() / 2;
-//            int y1 = insets.top + a.getY() + a.getHeight() / 2;
-//            int y2 = insets.top + b.getY() + b.getHeight() / 2;
-//            g2.drawLine(x1, y1, x2, y2);
-//            pre = next;
-//		}
-//	}
 	protected void endGame(boolean finished,int score) {
 		this.dispose();
 		FileWriter fw = null;
@@ -143,7 +135,7 @@ public class GamePage extends JFrame {
 		this.restart.setBounds(10, 60, 90, 40);
 		this.add(this.restart);
 
-		this.hint = new JButton("Hint");
+		this.hint = new JButton("Hint (" + hintNum + ")");
 		this.hint.setBounds(10, 110, 90, 40);
 		this.add(this.hint);
 
@@ -172,6 +164,17 @@ public class GamePage extends JFrame {
 				GamePage.setLocation(p);
 				if(timer != null)
 					timer.cancel();
+			}
+		});
+		
+		this.hint.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (hintNum > 0) {
+					jpanel.showHint();
+					hintNum--;
+					hint.setText("Hint (" + hintNum + ")");
+				}
 			}
 		});
 	}
