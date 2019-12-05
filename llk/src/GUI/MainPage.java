@@ -48,8 +48,6 @@ public class MainPage extends JFrame implements ActionListener {
 		username=name;
 		scoreboard = new ScoreBoard();
 		f = this;
-		dialog = new Dialog(f);
-		dialog.setVisible(false);
 		
 	}
 	
@@ -81,7 +79,9 @@ public class MainPage extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				dialog = new Dialog(f);
 				dialog.setVisible(true);
+				dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			}
 		});
 		
@@ -90,16 +90,16 @@ public class MainPage extends JFrame implements ActionListener {
 	private void showButton() {
 		// TODO Auto-generated method stub
 		start = new JButton("Start");
-		start.setFont(new Font("acefont-family", Font.BOLD, 25));
-		start.setBounds(230, 150, 150, 40);
+		start.setFont(new Font("acefont-family", Font.BOLD, 20));
+		start.setBounds(230, 150, 180, 40);
 
 		score = new JButton("Scores");
-		score.setFont(new Font("acefont-family", Font.BOLD, 25));
-		score.setBounds(230, 200, 150, 40);
+		score.setFont(new Font("acefont-family", Font.BOLD, 20));
+		score.setBounds(230, 200, 180, 40);
 		 
 		setting = new JButton("Settings");
-     	setting.setFont(new Font("acefont-family", Font.BOLD, 25));
-	    setting.setBounds(230, 250, 150, 40);
+     	setting.setFont(new Font("acefont-family", Font.BOLD, 20));
+	    setting.setBounds(230, 250, 180, 40);
 
 		add(start);
 		add(score);
