@@ -8,3 +8,5 @@
 /.recommenders/
 /llk/src/data/
 /bin/
+.classpath
+bin/
