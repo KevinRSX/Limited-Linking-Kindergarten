@@ -1,5 +1,7 @@
 # Limited Linking Kindergarten -- User Manual
 
+## User Manual
+
 All demonstrations are performed on Windows, but the process are the same on other operating systems.
 
 <img src="./doc_img/homepage.png" style="zoom:75%;" />

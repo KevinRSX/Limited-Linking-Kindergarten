@@ -1,9 +1,18 @@
 # Limited Linked Kindergarten
 
+## Coding
+
+- [ ] refactor GUI
+- [ ] refactor board
+- [ ] debug timer
+- [ ] test GUI
+- [ ] test board
+- [ ] test timer
+
+
+
 ## Analysis and Group Report
 
-- Introduction, Design constraints, Use case requirements and design constraints (1)
-- Class diagram (all)
 - Design principles and patterns (2)
   - Code refactoring (David & Dong & Harry): code & report parallel
   - Summarize the principles and patterns
@@ -14,45 +23,73 @@
   - Harry: Timer
 - Test report (all)
 
-
+- [x] Introduction
+- [x] Design Constraints
+- [x] Use case requirements
+- [ ] Class diagram (one left)
+- [ ] Design principles (Game Board & Scoreboard & main game)
+- [ ] Design patterns (Game Board & Scoreboard & main game)
+- [ ] Algorithm: page switching
+- [ ] Algorithm: timer
+- [x] Algorithm: game board
+- [x] Algorithm: scoreboard
+- [ ] Test report: main game
+- [ ] Test report: timer
+- [ ] Test report: game board
+- [x] Test report: scoreboard
+- [ ] Test report: integration
+- [ ] Test report: system
+- [ ] Refactor: main game
+- [ ] Refactor: timer
+- [ ] Refactor: game board
+- [x] Refactor: scoreboard
 
 ## Bug Reporting
 
-Written by 1. Others report bugs to him.
+- [x] Bug report
 
 
 
 ## Project Plan
 
-Assigned to David & Zelin.
+- [x] Project Plan
 
 
 
 ## Release Summary
 
-Assigned to Kevin.
+- [x] Release Summary
 
 
 
 ## Self Assessment
 
-Everyone.
+- [ ] Ivan
+- [x] Kevin
+- [ ] Qihua
+- [ ] David
+- [ ] Harry
+- [x] James
 
 
 
 ## Installation Guide
 
-Assigned to Kevin.
+- [ ] Installation Guide
 
 
 
 ## User Manual
 
-Assigned to Kevin.
+- [x] User Manual
 
 
 
 ## Activity Log
 
-Everyone.
+- [x] Activity Log
+
+
+
+## Presentation
 
