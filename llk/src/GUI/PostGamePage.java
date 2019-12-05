@@ -55,11 +55,6 @@ public class PostGamePage extends JFrame {
 		this.postgame=this;
 		this.points = points;
 		
-		scoreboard = new ScoreBoard();
-		scoreboard.showScoreBoard("src/data/1.txt");
-		Object[][] arr = scoreboard.getScores();
-		scorepage = new ScorePage(arr, this);
-		
 		showMenu();
 		setVisible(true);
 	}
@@ -113,9 +108,14 @@ public class PostGamePage extends JFrame {
 				GamePage.setLocation(p);
 			}
 		});
+		
 		this.score.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				scoreboard = new ScoreBoard();
+				scoreboard.showScoreBoard("data/1.txt");
+				Object[][] arr = scoreboard.getScores();
+				scorepage = new ScorePage(arr, postgame);
 				scorepage.setVisible(true);
 				scorepage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			}

@@ -9,11 +9,12 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class ScoreBoard{
-    private List<Record> list = new ArrayList<>();
+    private List<Record> list;
     private  Object[][] arr = new Object[1000][3];
 
-    
+ 
     public void showScoreBoard(String filepath){
+    	list = new ArrayList<>();
     	String line = null;
         try{
             File file = new File(filepath);

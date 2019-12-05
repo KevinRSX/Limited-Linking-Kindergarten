@@ -19,8 +19,8 @@ import javax.swing.JComboBox;
 public class Dialog extends JDialog implements ItemListener{
 	private final static int MAX_SIZE = 10;
 	
-	private JLabel sizeLabel, timerLabel, aboutLabel;
-	private JComboBox sizeBox, timerBox;
+	private JLabel sizeLabel, aboutLabel;
+	private JComboBox sizeBox;
 	private JScrollPane jta;
 	private int game_size;
 	private ArrayList<Integer> sizeList;
@@ -57,21 +57,6 @@ public class Dialog extends JDialog implements ItemListener{
 		this.sizeBox.addItemListener(this);
 		this.sizeBox.setSelectedIndex(sizeList.indexOf(this.game_size));
 		add(sizeBox);
-		
-		// Timer Label
-//		timerLabel = new JLabel("Timer:");
-//		timerLabel.setFont(new Font("acefont-family", Font.BOLD, 15));
-//		timerLabel.setBounds(10, 40, 100, 20);
-//		add(timerLabel);
-//		
-//		ArrayList<Integer> timeList = new ArrayList<Integer>();
-//		for(int i=2;i<=Dialog.MAX_SIZE;i+=2) {
-//			timeList.add(i);
-//		}
-//		this.timerBox = new JComboBox(timeList.toArray());
-//		this.timerBox.setBounds(120, 40, 100, 20);
-//		add(timerBox);
-		
 		
 		// about authors
 		aboutLabel = new JLabel("Authors:");

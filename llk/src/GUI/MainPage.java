@@ -69,7 +69,7 @@ public class MainPage extends JFrame implements ActionListener {
 		score.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				scoreboard.showScoreBoard("src/data/1.txt");
+				scoreboard.showScoreBoard("data/1.txt");
 				Object[][] arr = scoreboard.getScores();
 				s = new ScorePage(arr, f);
 				s.setVisible(true);

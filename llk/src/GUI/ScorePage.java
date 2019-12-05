@@ -35,27 +35,8 @@ public class ScorePage extends JDialog{
 	}
 
 	private void placeComponents(Container panel) {
-		
 		panel.add(new JScrollPane(ScoreTable));
 		ScoreTable.setEnabled(false);
-		
-//		button.addActionListener(new ActionListener() {  
-//			@Override
-//			public void actionPerformed(ActionEvent e) {			 
-//				JFileChooser chooser = new JFileChooser();            
-//				//chooser.setMultiSelectionEnabled(true);            
-//				int returnVal = chooser.showOpenDialog(button);      
-//				System.out.println("returnVal="+returnVal);
-//			 
-//				if (returnVal == JFileChooser.APPROVE_OPTION) {      
-//			 
-//					String filepath = chooser.getSelectedFile().getAbsolutePath();     
-//					System.out.println(filepath);		 
-//	 
-//				}
-//			}	
-//		});
-
 		
 	}
 	

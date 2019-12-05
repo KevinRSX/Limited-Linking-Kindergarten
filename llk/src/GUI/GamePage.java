@@ -134,7 +134,7 @@ public class GamePage extends JFrame implements Stoppable{
 		score+=timer.getRemainingTime()*5;
 //		PreGamePage.clearInfoForFile("src/data/1.txt");
         try {
-            fw = new FileWriter("src/data/1.txt",true);
+            fw = new FileWriter("data/1.txt",true);
             fw.write(username+", " + score + ", " + df.format(new Date()) + "\n");
         } catch(Exception e) {
             e.printStackTrace();
