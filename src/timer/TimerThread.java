@@ -20,6 +20,7 @@ public class TimerThread extends Thread {
 		e_time = 0;
 		set_time = display_time = rt;
 		duration_time = rt * 1000;
+		this.setPriority(10);
 	}
 	
 	public TimerThread(Object obj, Stoppable sp, int rt, long et) {
@@ -29,7 +30,7 @@ public class TimerThread extends Thread {
 		e_time = (int)(et / 1000);
 		duration_time = rt * 1000 - et; 
 		display_time = (int)(duration_time / 1000);
-		
+		this.setPriority(10);
 	}
 	
 	// specific designed for obj:JProgressBar.
