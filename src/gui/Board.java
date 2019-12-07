@@ -146,7 +146,7 @@ public class Board extends JPanel implements MouseListener {
 		grid_icon = new Icon[10];
 		
 		for(int i = 0; i < grid_icon.length; i++) {
-			grid_icon[i] = new ImageIcon(getClass().getResource("/images/" + "pic"+ (i + 1) + ".png"));
+			grid_icon[i] = new ImageIcon(("images/" + "pic"+ (i + 1) + ".png"));
 		}
 		
 		for(int i = 0; images_t.size() < (GameSize - 2) * (GameSize - 2); i++) {

@@ -15,73 +15,73 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-//import java.util.Timer;
-//import java.util.TimerTask;
-import java.util.Date;
+import java.util.HashMap;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import game.Main;
+import score.ScoreBoard;
 
 @SuppressWarnings("serial")
-public class GamePage extends JFrame implements Stoppable{
-	private JLabel back;
-	private GamePage g;
-	private JButton home, restart, hint;
-	private int GameSize;
+public class GamePage extends AbstractPage implements Stoppable{
+	private Background background;
+	private GamePage game;
+	private Button home, restart;
+	private JButton hint;
+	private int gamesize;
 	private String username;
 	private JProgressBar jpb;
 	private Timer timer; 
 	private Board jpanel;
 	private int hintNum; // refactor here (state pattern)
 	
+	private JFrame father;
 	
 	
-	public GamePage(int GameSize, String username) {
+	
+	public GamePage(int gamesize, String username, JFrame f) {
 		super("Link And Cancel!");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
-		hintNum = 3;
-		this.GameSize = GameSize + 2;
+		setIconImage(Toolkit.getDefaultToolkit().getImage(("images/icon.png")));
 		setSize(800, 700);
 		
-		ImageIcon background = new ImageIcon(getClass().getResource("/images/background.png"));
-		back = new JLabel(background);
-		back.setBounds(0, 0, getWidth(), getHeight());
+		this.father = f;
+		this.hintNum = 3;
+		this.gamesize = gamesize + 2;
+		
+		this.username=username;
+		this.jpanel = new Board(this.gamesize, this);
+		add(this.jpanel);
 
-		JPanel j = (JPanel)getContentPane();
-		j.setOpaque(false);
-		getLayeredPane().add(back, Integer.valueOf(Integer.MIN_VALUE));
-		setVisible(true);
-
+		showBackground();
 		showMenu();
 		showTime();
+		
+		game = this;
+		this.setVisible(false);
 
-		this.username=username;
-		this.jpanel = new Board(this.GameSize, this);
-		add(this.jpanel);
-		g = this;
 	}
-
+	
+	@SuppressWarnings("deprecation")
+	private void showBackground() {
+		this.background = new Background("images/background.png",this.getWidth(), this.getHeight());
+        
+		JPanel contentPanel = (JPanel)this.getContentPane();
+        contentPanel.setOpaque(false);
+        getLayeredPane().add(this.background, new Integer(Integer.MIN_VALUE));
+	}
+	
 	private void showTime() {
 		int time_to_give, bonus_to_give, pun_to_give;
-		if (GameSize - 2 == 2) {
+		if (gamesize - 2 == 2) {
 			time_to_give = 15;
 			bonus_to_give = pun_to_give = 1;
 		} else {
-			time_to_give = (GameSize - 2) * 15;
-			pun_to_give = (GameSize - 2)/2 + 1;
+			time_to_give = (gamesize - 2) * 15;
+			pun_to_give = (gamesize - 2)/2 + 1;
 		}
-		if (GameSize - 2 == 4 || GameSize - 2 == 6) {
+		if (gamesize - 2 == 4 || gamesize - 2 == 6) {
 			bonus_to_give = 1;
 		} else {
 			bonus_to_give = 2;
@@ -102,20 +102,6 @@ public class GamePage extends JFrame implements Stoppable{
 		} catch (TimerStartErrorException e) {
 			e.printStackTrace();
 		}
-		/*
-		timer.scheduleAtFixedRate(new TimerTask() {
-			
-			@Override
-			public void run() {
-				jpb.setValue(jpb.getValue()+1);
-				if(jpb.getValue() > 80)
-					jpb.setForeground(Color.RED);
-				if(jpb.getValue() == 100) {
-					timer.cancel();
-				}
-			}
-		}, 0, 900);
-		*/
 	}
 
 	@Override
@@ -130,28 +116,15 @@ public class GamePage extends JFrame implements Stoppable{
 	}
 	
 	protected void endGame(boolean is_finished, int score) {
-		this.dispose();
-		FileWriter fw = null;
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss");
-		score+=timer.getRemainingTime()*5;
-//		PreGamePage.clearInfoForFile("src/data/1.txt");
-        try {
-            fw = new FileWriter("data/1.txt",true);
-            fw.write(username+", " + score + ", " + df.format(new Date()) + "\n");
-        } catch(Exception e) {
-            e.printStackTrace();
-        } finally {
-            if(null != fw) {
-                    try {
-						fw.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-            }
-        }
+		super.dispose();
         
-        Point p = g.getLocation();
-		PostGamePage postgame=new PostGamePage(is_finished, GameSize ,username,this, score);
+		// write the record to score file
+		ScoreBoard.getInstance().wirteScoreBoard("data/1.txt", this.username, score);
+		
+		// Turn to post game page
+        Point p = game.getLocation();
+		PostGamePage postgame=new PostGamePage(is_finished, username, gamesize, score);
+		
 		postgame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		postgame.setLayout(null);
 		postgame.setLocation(p);
@@ -160,55 +133,19 @@ public class GamePage extends JFrame implements Stoppable{
 	}
 	
 	private void showMenu() {
-		this.home = new JButton("Home");
-		this.home.setBounds(10, 10, 90, 40);
+		this.home = new Button("Home", null, 10, 10, 90, 40);
+		this.home.bind(MainPage.getInstance());
+		MainPage.getInstance().setFather(this);
 		this.add(this.home);
 		
-		this.restart = new JButton("Restart");
-		this.restart.setBounds(10, 60, 90, 40);
+		this.restart = new Button("Restart", null, 10, 60, 90, 40);
+		GamePageController gamepage = GamePageController.getInstance();
+		gamepage.setFather(this);
+		this.restart.bind(gamepage);
 		this.add(this.restart);
 
 		this.hint = new JButton("Hint (" + hintNum + ")");
 		this.hint.setBounds(10, 110, 90, 40);
-		this.add(this.hint);
-
-		this.home.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Point p = g.getLocation();
-				g.dispose();
-				Main.main(null);
-//				PreGamePage.setMainPageLocation(p);
-				try {
-					timer.cancel();
-				} catch (TimerTerminateErrorException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-
-		this.restart.addActionListener(new ActionListener() {	
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(timer != null)
-					try {
-						timer.cancel();
-					} catch (TimerTerminateErrorException e1) {
-						e1.printStackTrace();
-					}
-				Point p = g.getLocation();
-				g.dispose();
-				GamePage GamePage;
-				GamePage = new GamePage(GameSize - 2, username);
-				GamePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				GamePage.setLayout(null);
-				
-				GamePage.setResizable(false);
-				GamePage.setLocation(p);
-				
-			}
-		});
-		
 		this.hint.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -219,6 +156,7 @@ public class GamePage extends JFrame implements Stoppable{
 				}
 			}
 		});
+		this.add(this.hint);
 	}
 	
 	public void stopTimer() throws TimerTerminateErrorException {
@@ -233,11 +171,31 @@ public class GamePage extends JFrame implements Stoppable{
 		timer.decreaseTime();
 	}
 	
-	
 	@Override
 	public boolean stop() {
-		int score=((GameSize-2)*(GameSize-2)-jpanel.remainingNum())*10;
+		int score=((gamesize-2)*(gamesize-2)-jpanel.remainingNum())*10;
 		endGame(false, score);
 		return true;
+	}
+	
+	@Override
+	public void dispose() {
+		if(timer != null)
+		try {
+			timer.cancel();
+		} catch (TimerTerminateErrorException e1) {
+			e1.printStackTrace();
+		}
+		super.dispose();
+	}
+	
+
+	@Override
+	protected HashMap<String, String> getInfo() {
+		// TODO Auto-generated method stub
+		HashMap<String, String> gameinfo = new HashMap<String, String>();
+		gameinfo.put("gamesize", (new Integer(this.gamesize-2)).toString());
+		gameinfo.put("username", this.username);
+		return gameinfo;
 	}
 }

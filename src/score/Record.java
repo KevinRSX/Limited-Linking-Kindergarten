@@ -1,8 +1,5 @@
 package score;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class Record implements Comparable{
 	private String name;
 	private int score;

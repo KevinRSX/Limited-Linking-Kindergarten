@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import score.ScoreBoard;
 
 class testScoreBoard {
-	private ScoreBoard sb = new ScoreBoard();
+	private ScoreBoard sb = ScoreBoard.getInstance();
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -32,24 +32,24 @@ class testScoreBoard {
 
 	@Test
 	void testScoreBoard_01() {	
-		assertEquals("File exists", sb.showScoreBoard("data/test1"));
-		assertEquals("Inputing a new filepath", 1, sb.listSize());
+		assertEquals("File exists", sb.readScoreBoard("data/test1"));
+		assertEquals("Inputing a new filepath", 1, sb.getlistSize());
 		
-		sb.getScores();
+		sb.getScores("data/test1");
 		assertEquals(1,sb.getNum());
 	}
 	@Test
 	void testScoreBoard_02() {	
-		assertEquals("File exists", sb.showScoreBoard("data/test2"));
-		assertEquals("Inputing a new filepath", 14, sb.listSize());
-		sb.getScores();
+		assertEquals("File exists", sb.readScoreBoard("data/test2"));
+		assertEquals("Inputing a new filepath", 14, sb.getlistSize());
+		sb.getScores("data/test2");
 		assertEquals(10,sb.getNum());
 	}
 	@Test
 	void testScoreBoard_03() {	
-		assertEquals("Cannot find this file!", sb.showScoreBoard("data/test3"));
-		assertEquals("Inputing a new filepath", 0, sb.listSize());
-		sb.getScores();
+		assertEquals("Cannot find this file!", sb.readScoreBoard("data/test3"));
+		assertEquals("Inputing a new filepath", 0, sb.getlistSize());
+		sb.getScores("data/test3");
 		assertEquals(0,sb.getNum());
 	}
 

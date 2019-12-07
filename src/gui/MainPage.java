@@ -1,126 +1,103 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import score.ScoreBoard;
-import game.Main;
+import java.util.HashMap;
 
+import score.ScoreBoard;
 
 @SuppressWarnings("serial")
-public class MainPage extends JFrame implements ActionListener {
+public class MainPage extends AbstractPage implements ButtonBindable {
 	
-	private JLabel back;
-	private JButton start, score, setting;
-	private MainPage f;
-	private Dialog dialog;
-	private ScorePage s;
-	private String username;
-	private ScoreBoard scoreboard;
+	private JLabel background;
+	private Button start, score, setting;
 	
-	public MainPage(String name) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
-		setSize(650, 500);
-		setLayout(null);
-
-		
-		showBackground();
-		showButton();
-		adapter();
-		
-		username=name;
-		scoreboard = new ScoreBoard();
-		f = this;
-		
-		dialog = new Dialog(f);
-		
+	private SettingDialog dialog;
+	private ScoreDialog scoredialog;
+	private JFrame father;
+	
+	// Singleton
+	private static MainPage mainPage = new MainPage();
+	public static MainPage getInstance() {
+		return mainPage;
 	}
 	
-	private void adapter() {
-		// TODO Auto-generated method stub
-		start.addActionListener(this);
+	private MainPage() {
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("images/icon.png"));
+		this.setSize(650, 500);
+		this.setLayout(null);
 		
-		score.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				scoreboard.showScoreBoard("data/1.txt");
-				Object[][] arr = scoreboard.getScores();
-				s = new ScorePage(arr, f);
-				s.setVisible(true);
-				s.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			}
-		});
-			
-		setting.addActionListener(new ActionListener() {		
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				dialog.setVisible(true);
-				dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			}
-		});
+		this.dialog = new SettingDialog(this);
 		
-	}
-	
-	private void showButton() {
-		// TODO Auto-generated method stub
-		start = new JButton("Start");
-		start.setFont(new Font("acefont-family", Font.BOLD, 20));
-		start.setBounds(230, 150, 180, 40);
-
-		score = new JButton("Scores");
-		score.setFont(new Font("acefont-family", Font.BOLD, 20));
-		score.setBounds(230, 200, 180, 40);
-		 
-		setting = new JButton("Settings");
-     	setting.setFont(new Font("acefont-family", Font.BOLD, 20));
-	    setting.setBounds(230, 250, 180, 40);
-
-		add(start);
-		add(score);
-		add(setting);
+		this.showBackground();
+		this.showButton();
 	}
 	
 	private void showBackground() {
 		// TODO Auto-generated method stub
-	 	ImageIcon background = new ImageIcon(getClass().getResource("/images/home.jpg"));
-        back = new JLabel(background);
-        back.setBounds(0, 0, getWidth(), getHeight());
-        JPanel j = (JPanel)getContentPane();
-        j.setOpaque(false);
-        getLayeredPane().add(back, new Integer(Integer.MIN_VALUE));
+		this.background = new Background("images/home.jpg",this.getWidth(), this.getHeight());
+        
+		JPanel contentPanel = (JPanel)this.getContentPane();
+        contentPanel.setOpaque(false);
+        getLayeredPane().add(this.background, new Integer(Integer.MIN_VALUE));
+	}
+	
+	private void showButton() {
+		// TODO Auto-generated method stub
+		start = new Button("Start", 230, 150);
+		PreGamePage pregamePage = new PreGamePage(this.dialog.getGame_size(), this);
+		start.bind(pregamePage);
+		
+		score = new Button("Scores", 230, 200);
+		scoredialog = new ScoreDialog(this);
+		score.bind(scoredialog);
+		
+		setting = new Button("Settings", 230, 250);
+		setting.bind(this.dialog);
+		
+		this.add(start);
+		this.add(score);
+		this.add(setting);
+	}
+
+	public HashMap<String, String> getInfo(){
+		HashMap<String, String> gameinfo = new HashMap<String, String>();
+		gameinfo.put("gamesize", (new Integer(this.dialog.getGame_size())).toString());
+		return gameinfo;
+	}
+
+	public void setFather(JFrame f) {this.father = f;}
+	
+	@Override
+	public void display() {
+		// TODO Auto-generated method stub
+		System.out.println(this.father);
+		Point p = this.father.getLocation();
+		this.father.dispose();
+		this.father = null;
+		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(null);
+		this.setResizable(false);
+		this.setLocation(p);
+		this.setVisible(true);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void refresh() {
 		// TODO Auto-generated method stub
-
-		Point p = Main.getMainPageLocation();
-		Main.disposeMainPage();
-		
-		PreGamePage pregamePage = new PreGamePage(this.dialog.getGame_size());
-		pregamePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		pregamePage.setLayout(null);
-		pregamePage.setResizable(false);
-		pregamePage.setLocation(p);
+//		score = new Button("Scores", 230, 200);
+		this.scoredialog.refresh();
 	}
 
 }
