@@ -29,10 +29,10 @@ public class Board extends JPanel implements MouseListener {
 	private final int W = 50; // Width of a single grid
     private Icon grid_icon[];    
 
-	private ArrayList<Integer> images_t; // helper arraylist to generate grids
+	private ArrayList<Integer> images_t; // helper ArrayList to generate grids
 	private Grid[][] grids;
 	private boolean[][] cancelled;
-    private JLabel selected;
+    private Grid selected;
     private ArrayList<Point> path;
     private GamePage gamePage;
     
@@ -64,35 +64,16 @@ public class Board extends JPanel implements MouseListener {
 	}
 	
 	/*-----------------------------utility-----------------------------*/
-//	private boolean sameType(JLabel j1, JLabel j2) {
-//		return j1.getIcon().equals(j2.getIcon());
-//	}
-	
-//	public void setGridIcon(int row, int col, ImageIcon image) {
-//		grids[row][col].setIcon(image);
-//	}
-//	
-//	public void setGridIcon(RowAndColumn rac, ImageIcon image) {
-//		grids[rac.getRow()][rac.getCol()].setIcon(image);
-//	}
-	
 	public int getGameSize() { return GameSize; }
-	
-	// public JLabel getLabel(int i, int j) { return grids[i][j]; } 
 	
 	// get row and column index from the JLabel how number
 	// example: 0 returns 0, 0;
-	public RowAndColumn getIndexFromLabel(int numLabel) {
+	public Point getIndexFromLabel(int numLabel) {
 		int row = numLabel / GameSize;
 		int col = numLabel % GameSize;
-		return new RowAndColumn(row, col);
+		return new Point(row, col);
 	}
-	
-//	public boolean canPassThrough(int r, int c)
-//	{
-//		return grids[r][c].getIcon() == null;
-//	}
-	
+		
 	public Point getIndexFromGrid(JLabel g) {
 		for (int i = 1; i < GameSize - 1; i++) {
 			for (int j = 1; j < GameSize - 1; j++) {
@@ -116,81 +97,13 @@ public class Board extends JPanel implements MouseListener {
 		}
 		return remaining;
 	}
-	
-	// three methods for determination of cancellation
-	// x----x
-//	public boolean lineEliminate(int x1, int y1, int x2, int y2)
-//	{
-//		if (x1 == x2)
-//		{
-//			int step = y1 > y2 ? -1 : 1;
-//			for (int i = y1 + step; i != y2; i += step)
-//			{
-//				if (!canPassThrough(x1, i))
-//					return false;
-//			}
-//			return true;
-//		}
-//		else if (y1 == y2)
-//		{
-//			int step = x1 > x2 ? -1 : 1;
-//			for (int i = x1 + step; i != x2; i += step)
-//			{
-//				if (!canPassThrough(i, y1))
-//					return false;
-//			}
-//			return true;
-//		}
-//		return false;
-//	}
-//	
-//	// x-----
-//	//      |
-//	//      x
-//	public Point twoLineEliminate(int x1, int y1, int x2, int y2)
-//	{
-//		if (x1 == x2 || y1 == y2)
-//			return null;
-//		if (lineEliminate(x1, y1, x1, y2) && lineEliminate(x1, y2, x2, y2) && canPassThrough(x1, y2)) {
-//			return new Point(x1, y2);
-//		}
-//		else if (lineEliminate(x1, y1, x2, y1) && lineEliminate(x2, y1, x2, y2) && canPassThrough(x2, y1)) {
-//			return new Point(x2, y1);
-//		}
-//		return null;
-//	}
-//
-//	// ------
-//	// |    |
-//	// x    x
-//	public ArrayList<Point> threeLineEliminate(int x1, int y1, int x2, int y2)
-//	{
-//		ArrayList<Point> turningPoints = new ArrayList<>();
-//		for (int i = 0; i < GameSize; i++)
-//		{
-//			if (i != x1)
-//			{
-//				if (lineEliminate(x1, y1, i, y1) && (twoLineEliminate(i, y1, x2, y2) != null) && canPassThrough(i, y1)) {
-//					turningPoints.add(new Point(i, y1));
-//					turningPoints.add(twoLineEliminate(i, y1, x2, y2));
-//					return turningPoints;
-//				}
-//			}
-//			if (i != y1)
-//			{
-//				if (lineEliminate(x1, y1, x1, i) && (twoLineEliminate(x1, i, x2, y2) != null) && canPassThrough(x1, i)) {
-//					turningPoints.add(new Point(x1, i));
-//					turningPoints.add(twoLineEliminate(x1, i, x2, y2));
-//					return turningPoints;
-//				}
-//			}
-//		}
-//		return null;
-//	}
-//	
+
 	public void clearBorders() {
 		for (int i = 1; i < GameSize - 1; i++) {
 			for (int j = 1; j < GameSize - 1; j++) {
+				CommandManager cm = new CommandManager();
+				cm.addCommand(new DeselectLinkable(grids[i][j]));
+				cm.executeAllCommands();
 				grids[i][j].deselect();
 			}
 		}
@@ -200,14 +113,13 @@ public class Board extends JPanel implements MouseListener {
 	public void showGame() {
 		for(int i = 0; i < GameSize * GameSize; i++) {
 			// set edges to null
-			RowAndColumn rowColPos = getIndexFromLabel(i);
-			int row = rowColPos.getRow();
-			int col = rowColPos.getCol();
+			Point rowColPos = getIndexFromLabel(i);
+			int row = rowColPos.x;
+			int col = rowColPos.y;
 			if(i % GameSize == 0 || i % GameSize == GameSize - 1 || i / GameSize == 0 || i / GameSize == GameSize - 1) {
 				JLabel j = new JLabel();
 				j.setIcon(null);
 				grids[row][col] = new Grid();
-				// setGridIcon(getIndexFromLabel(i), null);
 				grids[row][col].setIcon(null);
 				add(grids[row][col]);
 				continue;
@@ -262,56 +174,17 @@ public class Board extends JPanel implements MouseListener {
 		}
 		
 		for (int i = 1; i < GameSize * GameSize; i++) {
-			RowAndColumn rowColPos = getIndexFromLabel(i);
-			int row = rowColPos.getRow();
-			int col = rowColPos.getCol();
+			Point rowColPos = getIndexFromLabel(i);
+			int row = rowColPos.x;
+			int col = rowColPos.y;
 			if(i % GameSize == 0 || i % GameSize == GameSize - 1 || i / GameSize == 0 || i / GameSize == GameSize - 1 || cancelled[row][col]) {
 				continue;
 			}
 			int nIndex = new Random().nextInt(images_t.size());
-			// setGridIcon(rowColPos, (ImageIcon)grid_icon[(int)images_t.get(nIndex)]);
 			grids[row][col].setIcon((ImageIcon)grid_icon[(int)images_t.get(nIndex)]);
 			images_t.remove(nIndex);
 		}
-	}
-	
-	
-//	public ArrayList<Point> getTurningPoints(int x1, int y1, int x2, int y2)
-//	{
-//		if (x1 == x2 && y1 == y2) return null;
-//		if (!sameType(grids[x1][y1], grids[x2][y2])) return null;
-//		if (canPassThrough(x1, y1) || canPassThrough(x2, y2)) return null;
-//
-//		if (lineEliminate(x1, y1, x2, y2)) return new ArrayList<Point>();
-//		Point le2;
-//		if ((le2 = twoLineEliminate(x1, y1, x2, y2)) != null) {
-//			ArrayList<Point> tp = new ArrayList<>();
-//			tp.add(le2);
-//			return tp;
-//		}
-//		ArrayList<Point> le3;
-//		if ((le3 = threeLineEliminate(x1, y1, x2, y2)) != null) {
-//			return le3;
-//		}
-//		return null;
-//	}
-//	
-//	public ArrayList<Point> getTurningPoints(Point p1, Point p2) {
-//		return getTurningPoints(p1.x, p1.y, p2.x, p2.y);
-//	}
-
-	// determine if the two given grids can be cancelled
-//	public boolean isSolvable(int x1, int y1, int x2, int y2)
-//	{
-//		if (x1 == x2 && y1 == y2) return false;
-//		if (!sameType(grids[x1][y1], grids[x2][y2])) return false;
-//		if (canPassThrough(x1, y1) || canPassThrough(x2, y2)) return false;
-//		if (lineEliminate(x1,y1,x2,y2) || twoLineEliminate(x1, y1, x2, y2) != null || 
-//				threeLineEliminate(x1,y1,x2,y2) != null)
-//			return true;
-//		return false;
-//	}
-	
+	}		
 	
 	// determine if there is at least one pair of grids that can be cancelled
 	public boolean isSolvable()
@@ -338,8 +211,10 @@ public class Board extends JPanel implements MouseListener {
 					{
 						if(GridMatcher.isCancellable(grids, new Point(x1, y1), new Point(x2, y2)))
 						{
-							grids[x1][y1].select();
-							grids[x2][y2].select();
+							CommandManager cm = new CommandManager();
+							cm.addCommand(new SelectLinkable(grids[x1][y1]));
+							cm.addCommand(new SelectLinkable(grids[x2][y2]));
+							cm.executeAllCommands();
 							return;
 						}
 					}
@@ -381,9 +256,11 @@ public class Board extends JPanel implements MouseListener {
 		path = new ArrayList<>();
 		Grid j = (Grid)e.getComponent();
 		clearBorders();
+		CommandManager cm = new CommandManager();
 		if (j.getIcon() != null) {
 			if (selected == null) { // first selected
-				j.select();
+				cm.addCommand(new SelectLinkable(j));
+				cm.executeAllCommands();
 				selected = j;
 			}
 			else {
@@ -397,12 +274,13 @@ public class Board extends JPanel implements MouseListener {
 					} catch (TimerChangeException e1) {
 						e1.printStackTrace();
 					}
-					j.setIcon(null);
-					j.setBorder(null);
-					selected.setIcon(null);
-					selected.setBorder(null);
+					cm.addCommand(new CancelLinkable(j));
+					cm.addCommand(new CancelLinkable(selected));
+					cm.addCommand(new DeselectLinkable(j));
+					cm.addCommand(new DeselectLinkable(selected));
 					cancelled[rac1.x][rac1.y] = true;
 					cancelled[rac2.x][rac2.y] = true;
+					cm.executeAllCommands();
 					this.score+=10;
 					
 					// draw path
@@ -410,6 +288,7 @@ public class Board extends JPanel implements MouseListener {
 					allTurningPoints.add(rac2);
 					path = allTurningPoints;
 					gamePage.repaint();
+					
 					if(isFinished()) {
 						try {
 							gamePage.stopTimer();
@@ -425,9 +304,10 @@ public class Board extends JPanel implements MouseListener {
 							gamePage.decTime();
 						} catch (TimerChangeException e1) {
 							e1.printStackTrace();
+						}
 					}
-					}
-					selected.setBorder(null);
+					cm.addCommand(new DeselectLinkable(selected));
+					cm.executeAllCommands();
 				}
 				selected = null;
 			}
@@ -440,19 +320,11 @@ public class Board extends JPanel implements MouseListener {
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) {}
 }
