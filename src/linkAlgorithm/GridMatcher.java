@@ -103,7 +103,7 @@ public class GridMatcher {
 		if (x1 == x2 && y1 == y2) return false;
 		if (grids[x1][y1].canPassThrough() || grids[x2][y2].canPassThrough()) return false;
 		if (!grids[x1][y1].sameType(grids[x2][y2])) return false;
-		if (threeLinesMatcher(grids, p1, p2) == null) return false;
+		if (matchingPath(grids, p1, p2) == null) return false;
 		return true;
 	}
 }

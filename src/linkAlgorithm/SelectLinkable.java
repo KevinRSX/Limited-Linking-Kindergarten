@@ -2,7 +2,7 @@ package linkAlgorithm;
 
 public class SelectLinkable implements Command {
 
-	Linkable linkable;
+	private Linkable linkable;
 	public SelectLinkable(Linkable l) {
 		linkable = l;
 	}

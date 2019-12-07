@@ -1,7 +1,7 @@
 package linkAlgorithm;
 
 public class CancelLinkable implements Command {
-	Linkable linkable;
+	private Linkable linkable;
 	public CancelLinkable(Linkable l) {
 		linkable = l;
 	}

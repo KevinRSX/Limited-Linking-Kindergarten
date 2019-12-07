@@ -1,7 +1,7 @@
 package linkAlgorithm;
 
 public class DeselectLinkable implements Command {
-	Linkable linkable;
+	private Linkable linkable;
 	public DeselectLinkable(Linkable l) {
 		linkable = l;
 	}
