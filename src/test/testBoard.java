@@ -40,13 +40,13 @@ class testBoard {
 		}
 		@Override
 		public void paint(Graphics g) {
-			super.paint(g);
-		    Graphics2D g2 = (Graphics2D)g;
-		    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);  
-		    g2.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, 
-		             BasicStroke.JOIN_ROUND, 1f));
-	        g2.setColor(Color.CYAN);
-		    jpanel.showPath(g2, getInsets());
+		   	super.paint(g);
+		    	Graphics2D g2 = (Graphics2D)g;
+		    	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);  
+		    	g2.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, 
+		     	BasicStroke.JOIN_ROUND, 1f));
+	        	g2.setColor(Color.CYAN);
+		    	jpanel.showPath(g2, getInsets());
 		}
 	}
 	
@@ -108,7 +108,7 @@ class testBoard {
 	void testIsSolvable_showGame() {
 		int GameSize=4;
 		Board b=new Board(GameSize);
-		while(!b.getGrid(1, 1).sameType(b.getGrid(1, 2)) && !b.getGrid(1, 1).sameType(b.getGrid(2, 1)))
+		for(int i=0;i<40;i++)
 			b=new Board(GameSize);
 	}
 	@Test 
@@ -183,6 +183,7 @@ class testBoard {
 		b.mouseReleased(null);
 		b.mouseEntered(null);
 		b.mouseExited(null);
+		b.mouseClicked(null);
 	}
 	@Test
 	void testShowPath_1() {
