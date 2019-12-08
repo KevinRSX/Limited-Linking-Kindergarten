@@ -57,5 +57,14 @@ icon2=new ImageIcon(("images/" + "pic2"+ ".png"));
 		Grid grid1=new Grid(icon1),grid2=new Grid(icon1);
 		assertEquals(true, grid1.sameType(grid2));
 	}
-	
+	@Test
+	void testSameType_3() {
+		Grid grid1=new Grid(null),grid2=new Grid(icon1);
+		assertEquals(false, grid1.sameType(grid2));
+	}
+	@Test
+	void testSameType_4() {
+		Grid grid1=new Grid(null),grid2=new Grid(null);
+		assertEquals(true, grid1.sameType(grid2));
+	}
 }
