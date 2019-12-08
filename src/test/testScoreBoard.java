@@ -43,7 +43,7 @@ class testScoreBoard {
 		assertEquals("File exists", sb.readScoreBoard("data/test2"));
 		assertEquals("Inputing a new filepath", 14, sb.getlistSize());
 		sb.getScores("data/test2");
-		assertEquals(10,sb.getNum());
+		assertEquals(11,sb.getNum());
 	}
 	@Test
 	void testScoreBoard_03() {	

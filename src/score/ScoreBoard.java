@@ -43,6 +43,7 @@ public class ScoreBoard{
             else{
                 System.out.println("Cannot find this file!");
                 info = "Cannot find this file!";
+                num=0;
             }
 	    }catch(Exception e){
 	        System.out.println("Error");
