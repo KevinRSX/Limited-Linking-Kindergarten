@@ -48,6 +48,18 @@ Otherwise they cannot be cancelled. For example the "zero two" character on the 
 
 The timeline on the top shows how much time is left. If the time is used up, you will fail.
 
+Below is a reference table for time setting for different sizes:
+
+| Game Size | Total time to give (sec) | Bonus time (sec per successful cancellation) | Penalty (sec per failed cancellation) |
+| --------- | ------------------------ | -------------------------------------------- | ------------------------------------- |
+| 2         | 15                       | 1                                            | 1                                     |
+| 4         | 30                       | 1                                            | 2                                     |
+| 6         | 60                       | 1                                            | 3                                     |
+| 8         | 90                       | 2                                            | 4                                     |
+| 10        | 120                      | 2                                            | 5                                     |
+
+
+
 Buttons on the top-left corner:
 
 - `home`: return to home screen

@@ -54,6 +54,7 @@ public class Grid extends JLabel implements Linkable {
 
 	@Override
 	public boolean sameType(Linkable another) {
-		return this.getIcon().equals(((Grid)another).getIcon());
+		if (this.getIcon() == null && ((Grid)another).getIcon() == null) return true;
+		return (this.getIcon()==null)?false:this.getIcon().equals(((Grid)another).getIcon());
 	}
 }
