@@ -39,10 +39,10 @@ public class GamePage extends AbstractPage implements Stoppable{
 	
 	private JFrame father;
 	
-	
+	 
 	
 	public GamePage(int gamesize, String username, JFrame f) {
-		super("Link And Cancel!");
+		super("Link And Cancel!"); 
 		setIconImage(Toolkit.getDefaultToolkit().getImage(("images/icon.png")));
 		setSize(800, 700);
 		
@@ -54,7 +54,7 @@ public class GamePage extends AbstractPage implements Stoppable{
 		this.jpanel = new Board(this.gamesize, this);
 		add(this.jpanel);
 
-		showBackground();
+		showBackground(); 
 		showMenu();
 		showTime();
 		
@@ -104,7 +104,7 @@ public class GamePage extends AbstractPage implements Stoppable{
 		}
 	}
 
-	@Override
+	@Override 
 	public void paint(Graphics g) {
 		super.paint(g);
 	    Graphics2D g2 = (Graphics2D)g;
@@ -191,7 +191,7 @@ public class GamePage extends AbstractPage implements Stoppable{
 	
 
 	@Override
-	protected HashMap<String, String> getInfo() {
+	public HashMap<String, String> getInfo() {
 		// TODO Auto-generated method stub
 		HashMap<String, String> gameinfo = new HashMap<String, String>();
 		gameinfo.put("gamesize", (new Integer(this.gamesize-2)).toString());

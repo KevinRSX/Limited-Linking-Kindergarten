@@ -20,7 +20,7 @@ import score.ScoreBoard;
 public class MainPage extends AbstractPage implements ButtonBindable {
 	
 	private JLabel background;
-	private Button start, score, setting;
+	private Button start, score, setting; 
 	
 	private SettingDialog dialog;
 	private ScoreDialog scoredialog;

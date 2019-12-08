@@ -40,7 +40,7 @@ public class PostGamePage extends AbstractPage {
 		super("Limited Time");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(("images/icon.png")));
 		setSize(700, 600);
-		
+		 
 		this.showBackground();
 
 		this.is_finished=finished;
@@ -138,7 +138,7 @@ public class PostGamePage extends AbstractPage {
 	}
 
 	@Override
-	protected HashMap<String, String> getInfo() {
+	public HashMap<String, String> getInfo() {
 		// TODO Auto-generated method stub
 		HashMap<String, String> gameinfo = new HashMap<String, String>();
 		gameinfo.put("gamesize", (new Integer(this.gamesize)).toString());

@@ -3,6 +3,7 @@ package test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -17,11 +18,11 @@ class testlinkAlgorithm {
 	
 	//ox
 	//xo
-	@Test
+	@Test 
 	void testMatching_01() {
 		Grid[][] grids = new Grid[4][4];
-		ImageIcon image1 = new ImageIcon(getClass().getResource("/images/pic1.png"));
-		ImageIcon image2 = new ImageIcon(getClass().getResource("/images/pic2.png"));
+		ImageIcon image1 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic1.png"));
+		ImageIcon image2 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic2.png"));
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				grids[i][j] = new Grid();
@@ -44,8 +45,8 @@ class testlinkAlgorithm {
 	@Test
 	void testMatching_02() {
 		Grid[][] grids = new Grid[5][5];
-		ImageIcon image1 = new ImageIcon(getClass().getResource("/images/pic1.png"));
-		ImageIcon image2 = new ImageIcon(getClass().getResource("/images/pic2.png"));
+		ImageIcon image1 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic1.png"));
+		ImageIcon image2 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic2.png"));
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
 				grids[i][j] = new Grid();
@@ -71,8 +72,8 @@ class testlinkAlgorithm {
 	@Test
 	void testMatching_03() {
 		Grid[][] grids = new Grid[5][5];
-		ImageIcon image1 = new ImageIcon(getClass().getResource("/images/pic1.png"));
-		ImageIcon image2 = new ImageIcon(getClass().getResource("/images/pic2.png"));
+		ImageIcon image1 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic1.png"));
+		ImageIcon image2 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic2.png"));
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
 				grids[i][j] = new Grid();
@@ -98,8 +99,8 @@ class testlinkAlgorithm {
 	@Test
 	void testMatching_04() {
 		Grid[][] grids = new Grid[5][5];
-		ImageIcon image1 = new ImageIcon(getClass().getResource("/images/pic1.png"));
-		ImageIcon image2 = new ImageIcon(getClass().getResource("/images/pic2.png"));
+		ImageIcon image1 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic1.png"));
+		ImageIcon image2 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic2.png"));
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
 				grids[i][j] = new Grid();
@@ -124,8 +125,8 @@ class testlinkAlgorithm {
 	@Test
 	void testMatching_05() {
 		Grid[][] grids = new Grid[5][5];
-		ImageIcon image1 = new ImageIcon(getClass().getResource("/images/pic1.png"));
-		ImageIcon image2 = new ImageIcon(getClass().getResource("/images/pic2.png"));
+		ImageIcon image1 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic1.png"));
+		ImageIcon image2 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic2.png"));
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
 				grids[i][j] = new Grid();
@@ -148,10 +149,10 @@ class testlinkAlgorithm {
 	@Test
 	void testMatching_06() {
 		Grid[][] grids = new Grid[5][5];
-		ImageIcon image1 = new ImageIcon(getClass().getResource("/images/pic1.png"));
-		ImageIcon image2 = new ImageIcon(getClass().getResource("/images/pic2.png"));
+		ImageIcon image1 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic1.png"));
+		ImageIcon image2 = new ImageIcon(Toolkit.getDefaultToolkit().getImage("images/pic2.png"));
 		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 5; j++) {
+			for (int j = 0; j < 5; j++) { 
 				grids[i][j] = new Grid();
 				grids[i][j].setIcon(null);
 			}

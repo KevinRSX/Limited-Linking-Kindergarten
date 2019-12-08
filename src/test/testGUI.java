@@ -9,6 +9,7 @@ import java.util.HashMap;
 import gui.AbstractPage;
 import gui.Dialog;
 import gui.GamePage;
+import gui.GamePageController;
 import gui.MainPage;
 import gui.PostGamePage;
 import gui.PreGamePage;
@@ -21,7 +22,7 @@ class testGUI {
 		mainpage.display();
 		mainpage.refresh();
 	}
-	
+
 	@Test
 	void testPreGamePage() {
 		int gamesize=4;

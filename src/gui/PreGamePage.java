@@ -28,7 +28,7 @@ public class PreGamePage extends AbstractPage implements ButtonBindable{
 		this.gamesize = gamesize;
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage("images/icon.png"));
-		setSize(650, 500);
+		setSize(650, 500); 
 		setLayout(null);
 		
 		setVisible(false);
