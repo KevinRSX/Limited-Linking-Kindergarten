@@ -64,6 +64,8 @@ public class Board extends JPanel implements MouseListener {
 	}
 	
 	/*-----------------------------utility-----------------------------*/
+	public Grid getGrid(int i,int j) { return grids[i][j]; }
+	
 	public int getGameSize() { return GameSize; }
 	
 	// get row and column index from the JLabel how number
