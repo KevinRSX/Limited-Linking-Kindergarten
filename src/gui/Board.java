@@ -104,7 +104,6 @@ public class Board extends JPanel implements MouseListener {
 				CommandManager cm = new CommandManager();
 				cm.addCommand(new DeselectLinkable(grids[i][j]));
 				cm.executeAllCommands();
-				grids[i][j].deselect();
 			}
 		}
 	}
