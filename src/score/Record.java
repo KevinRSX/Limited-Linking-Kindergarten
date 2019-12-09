@@ -23,12 +23,6 @@ public class Record implements Comparable{
 		return time;
 	}
 	
-	public String toString() {
-		return "Name: " + name + ", " + "Score: " + score + ", " + "Time: " + time;
-		
-	}
-	
-
 	@Override
 	public int compareTo(Object arg0) {
 		// TODO Auto-generated method stub

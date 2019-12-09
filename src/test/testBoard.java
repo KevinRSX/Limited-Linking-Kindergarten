@@ -48,6 +48,10 @@ class testBoard {
 	        	g2.setColor(Color.CYAN);
 		    	jpanel.showPath(g2, getInsets());
 		}
+		@Override
+		public boolean stop() {return true;}
+		
+		
 	}
 	
 	@Test

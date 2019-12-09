@@ -39,10 +39,10 @@ public class GamePage extends AbstractPage implements Stoppable{
 	
 	private JFrame father;
 	
-	 
 	
+	public GamePage() {super();}
 	public GamePage(int gamesize, String username, JFrame f) {
-		super("Link And Cancel!"); 
+		super("Link And Cancel!");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(("images/icon.png")));
 		setSize(800, 700);
 		
@@ -54,7 +54,7 @@ public class GamePage extends AbstractPage implements Stoppable{
 		this.jpanel = new Board(this.gamesize, this);
 		add(this.jpanel);
 
-		showBackground(); 
+		showBackground();
 		showMenu();
 		showTime();
 		
@@ -104,7 +104,7 @@ public class GamePage extends AbstractPage implements Stoppable{
 		}
 	}
 
-	@Override 
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 	    Graphics2D g2 = (Graphics2D)g;
@@ -119,7 +119,7 @@ public class GamePage extends AbstractPage implements Stoppable{
 		super.dispose();
         
 		// write the record to score file
-		ScoreBoard.getInstance().wirteScoreBoard("data/1.txt", this.username, score);
+		ScoreBoard.getInstance().writeScoreBoard("data/1.txt", this.username, score);
 		
 		// Turn to post game page
         Point p = game.getLocation();
