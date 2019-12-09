@@ -1,95 +1,18 @@
 # Limited Linked Kindergarten
 
-## Coding
+<img src="./docs/doc_img/cover.png" alt="cover" style="zoom:30%;" />
 
-- [ ] refactor GUI
-- [ ] refactor board
-- [ ] debug timer
-- [ ] test GUI
-- [ ] test board
-- [ ] test timer
+This is the course project of City University of Hong Kong's *CS3343 Software Engineering Practice*.
 
+To know how to build/instal/ this project, see [installation guide](https://github.com/KevinRSX/Limited-Linking-Kindergarten/tree/master/docs/installation_guide.md).
 
+To know more about the rules guidlines of the graphic users' interface, see [user manual](https://github.com/KevinRSX/Limited-Linking-Kindergarten/blob/master/docs/User Manual.md).
 
-## Analysis and Group Report
+Contributors:
 
-- Design principles and patterns (2)
-  - Code refactoring (David & Dong & Harry): code & report parallel
-  - Summarize the principles and patterns
-- Program flows (sequence diagram) and algorithms:
-  - Kevin & Dong: Board
-  - David & James: GUI
-  - Zelin: Scoreboard
-  - Harry: Timer
-- Test report (all)
-
-- [x] Introduction
-- [x] Design Constraints
-- [x] Use case requirements
-- [ ] Class diagram (one left)
-- [ ] Design principles (Game Board & Scoreboard & main game)
-- [ ] Design patterns (Game Board & Scoreboard & main game)
-- [ ] Algorithm: page switching
-- [ ] Algorithm: timer
-- [x] Algorithm: game board
-- [x] Algorithm: scoreboard
-- [ ] Test report: main game
-- [ ] Test report: timer
-- [ ] Test report: game board
-- [x] Test report: scoreboard
-- [ ] Test report: integration
-- [ ] Test report: system
-- [ ] Refactor: main game
-- [ ] Refactor: timer
-- [ ] Refactor: game board
-- [x] Refactor: scoreboard
-
-## Bug Reporting
-
-- [x] Bug report
-
-
-
-## Project Plan
-
-- [x] Project Plan
-
-
-
-## Release Summary
-
-- [x] Release Summary
-
-
-
-## Self Assessment
-
-- [ ] Ivan
-- [x] Kevin
-- [ ] Qihua
-- [ ] David
-- [ ] Harry
-- [x] James
-
-
-
-## Installation Guide
-
-- [ ] Installation Guide
-
-
-
-## User Manual
-
-- [x] User Manual
-
-
-
-## Activity Log
-
-- [x] Activity Log
-
-
-
-## Presentation
-
+- Ruikang Li (project management, main workflow)
+- Deheng Zhang (GUI design, main workflow, class diagram, sequence diagram, use case diagram & specification)
+- Kaiwen Xue (game board, linking algorithm, beautification)
+- Zelin Ning (scoreboard, project plan)
+- Chengyu Sun (timer)
+- Qihua Dong (linking algorithm, testing)
