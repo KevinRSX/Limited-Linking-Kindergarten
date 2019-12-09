@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ScoreBoard{
-//	private static final String FILE_PATH = "data/1.txt";
 	private static final int MAX_RECORD = 10;
 	
     private List<Record> list;
@@ -62,14 +61,11 @@ public class ScoreBoard{
             fw.write(username+", " + score + ", " + df.format(new Date()) + "\n");
         } catch(Exception e) {
             System.out.println("Exception!!");
-//            e.printStackTrace();
         } finally {
 			try {
 				fw.close();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				System.out.println("Exception!!");
-//				e.printStackTrace();
 			}
         }
     }

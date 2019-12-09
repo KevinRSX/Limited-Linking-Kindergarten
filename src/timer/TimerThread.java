@@ -45,7 +45,6 @@ public class TimerThread extends Thread {
 		while(!Thread.currentThread().isInterrupted()) {
 			if (System.currentTimeMillis() - temp == 1000) {
 				--display_time;
-				//System.out.println(display_time);
 				jpb.setValue(jpb.getValue() + 1);
 				temp = System.currentTimeMillis();
 			}

@@ -44,7 +44,6 @@ public class MainPage extends AbstractPage implements ButtonBindable {
 	}
 	
 	private void showBackground() {
-		// TODO Auto-generated method stub
 		this.background = new Background("images/home.jpg",this.getWidth(), this.getHeight());
         
 		JPanel contentPanel = (JPanel)this.getContentPane();
@@ -53,7 +52,6 @@ public class MainPage extends AbstractPage implements ButtonBindable {
 	}
 	
 	private void showButton() {
-		// TODO Auto-generated method stub
 		start = new Button("Start", 230, 150);
 		PreGamePage pregamePage = new PreGamePage(this.dialog.getGame_size(), this);
 		start.bind(pregamePage);
@@ -80,7 +78,6 @@ public class MainPage extends AbstractPage implements ButtonBindable {
 	
 	@Override
 	public void display() {
-		// TODO Auto-generated method stub
 		System.out.println(this.father);
 		Point p = this.father.getLocation();
 		this.father.dispose();
@@ -95,8 +92,6 @@ public class MainPage extends AbstractPage implements ButtonBindable {
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
-//		score = new Button("Scores", 230, 200);
 		this.scoredialog.refresh();
 	}
 

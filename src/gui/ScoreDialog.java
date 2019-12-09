@@ -1,9 +1,6 @@
 package gui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
 import score.ScoreBoard;
@@ -42,14 +39,12 @@ public class ScoreDialog extends JDialog implements ButtonBindable{
 
 	@Override
 	public void display() {
-		// TODO Auto-generated method stub
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 	}
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
 		this.renderTable(this.getContentPane());
 		setBounds(this.father.getBounds().x+75, this.father.getBounds().y+75, 500, 350);
 	}

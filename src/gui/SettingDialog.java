@@ -1,13 +1,10 @@
 package gui;
 
 import java.awt.Font;
-import java.awt.TextField;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -91,7 +88,6 @@ public class SettingDialog extends JDialog implements ItemListener, ButtonBindab
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
 		switch (e.getStateChange())
 		{
 			case ItemEvent.SELECTED: 
@@ -106,14 +102,12 @@ public class SettingDialog extends JDialog implements ItemListener, ButtonBindab
 
 	@Override
 	public void display() {
-		// TODO Auto-generated method stub
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 	}
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
 		setBounds(this.father.getBounds().x+75, this.father.getBounds().y+75, 500, 350);
 	}
 

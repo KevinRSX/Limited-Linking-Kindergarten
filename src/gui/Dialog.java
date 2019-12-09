@@ -88,7 +88,6 @@ public class Dialog extends JDialog implements ItemListener{
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
 		switch (e.getStateChange())
 		{
 			case ItemEvent.SELECTED: 

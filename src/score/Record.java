@@ -1,6 +1,6 @@
 package score;
 
-public class Record implements Comparable{
+public class Record implements Comparable {
 	private String name;
 	private int score;
 	private String time;
@@ -25,7 +25,6 @@ public class Record implements Comparable{
 	
 	@Override
 	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
 		Record other = (Record) arg0;
 		if(this.score < other.score) {
 			return 1;
