@@ -60,7 +60,7 @@ java -jar llk-release3.jar
 
 
 
-##Install From Source 
+## Install From Source 
 
 You may also download the source code from GitHub or this folder.
 
@@ -83,8 +83,8 @@ llk (project name)/
     |---background.png
     |---other_images
 |---data/
-		|---test1.txt
-		|---other_data
+    |---test1.txt
+    |---other_data
 |---bin/
 ```
 
