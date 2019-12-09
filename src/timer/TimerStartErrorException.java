@@ -6,8 +6,4 @@ public class TimerStartErrorException extends Exception {
 	public TimerStartErrorException() {
 		super("Timer can not start correctly.");
 	}
-	
-	public TimerStartErrorException(String message) {
-		super(message);
-	}
 }

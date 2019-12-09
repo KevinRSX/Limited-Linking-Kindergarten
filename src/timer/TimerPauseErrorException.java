@@ -6,8 +6,4 @@ public class TimerPauseErrorException extends Exception {
 	public TimerPauseErrorException() {
 		super("Timer can not pause correctly.");
 	}
-	
-	public TimerPauseErrorException(String message)	{
-		super(message);
-	}
 }

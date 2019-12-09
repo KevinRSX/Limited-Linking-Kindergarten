@@ -36,7 +36,7 @@ public class Timer implements Stoppable{
 	public void start() throws TimerStartErrorException {
 		if (!is_paused && !is_running) {
 			timerThread.start();
-			System.out.println("Timer started.");
+			//System.out.println("Timer started.");
 			is_running = true;
 		} else {
 			throw new TimerStartErrorException();
@@ -44,10 +44,10 @@ public class Timer implements Stoppable{
 	}
 	
 	public void pause() throws TimerPauseErrorException {
-		if (is_running && !is_paused) {
+		if (is_running) {
 			elapsed_time += timerThread.getElapsedTime();
 			timerThread.interrupt();
-			System.out.println("paused.");
+			//System.out.println("paused.");
 			is_paused = true;
 			is_running = false;
 		} else {
@@ -56,10 +56,10 @@ public class Timer implements Stoppable{
 	}
 	
 	public boolean restart() throws TimerRestartErrorException {
-		if (is_paused && !is_running) {
+		if (is_paused) {
 			timerThread = new TimerThread(obj, ti, set_time, elapsed_time);
 			timerThread.start();
-			System.out.println("restarted.");
+			//System.out.println("restarted.");
 			is_paused = false;
 			is_running = true;
 			return true;
@@ -69,13 +69,13 @@ public class Timer implements Stoppable{
 	}
 	
 	public boolean cancel() throws TimerTerminateErrorException {
-		if (is_paused && !is_running) {
-			System.out.println("terminated.");
+		if (is_paused) {
+			//System.out.println("terminated.");
 			is_paused = false;
 			return true;
-		} else if (is_running && !is_paused) {
+		} else if (is_running) {
 			timerThread.interrupt();
-			System.out.println("terminated.");
+			//System.out.println("terminated.");
 			is_running = false;
 			return true;
 		} else {
@@ -86,15 +86,16 @@ public class Timer implements Stoppable{
 	public boolean increaseTime() throws TimerChangeException {
 		if (is_running) {
 			elapsed_time += timerThread.getElapsedTime();
+			//System.out.println(elapsed_time);
 			timerThread.interrupt();
 			elapsed_time = (bonus_time * 1000 > elapsed_time) ? 0 : elapsed_time - bonus_time*1000;
 			timerThread = new TimerThread(obj, ti, set_time, elapsed_time);
 			timerThread.start();
-			System.out.println("added " + bonus_time + " seconds to timer.");
+			//System.out.println("added " + bonus_time + " seconds to timer.");
 			return true;
 		} else if (is_paused) {
 			elapsed_time = (bonus_time * 1000 > elapsed_time) ? 0 : elapsed_time - bonus_time*1000;
-			System.out.println("added " + bonus_time + " seconds to timer.");
+			//System.out.println("added " + bonus_time + " seconds to timer.");
 			return true;
 		} else {
 			throw new TimerChangeException();
@@ -108,11 +109,11 @@ public class Timer implements Stoppable{
 			elapsed_time = (pun_time * 1000 > (set_time * 1000 - elapsed_time)) ? set_time * 1000 : elapsed_time + pun_time*1000;
 			timerThread = new TimerThread(obj, ti, set_time, elapsed_time);
 			timerThread.start();
-			System.out.println("subtracted " + pun_time + " seconds to timer.");
+			//System.out.println("subtracted " + pun_time + " seconds to timer.");
 			return true;
 		} else if (is_paused) {
 			elapsed_time = (pun_time * 1000 > (set_time * 1000 - elapsed_time)) ? set_time * 1000 : elapsed_time + pun_time*1000;
-			System.out.println("subtracted " + pun_time + " seconds to timer.");
+			//System.out.println("subtracted " + pun_time + " seconds to timer.");
 			return true;
 		} else {
 			throw new TimerChangeException();
@@ -130,5 +131,18 @@ public class Timer implements Stoppable{
 		is_running = false;
 		sp.stop();
 		return true;
+	}
+	
+	public boolean is_running() {
+		return is_running;
+	}
+	
+	public boolean is_paused() {
+		return is_paused;
+	}
+	
+	// only used in testing
+	public void clear() {
+		ti = new Timer();
 	}
 }

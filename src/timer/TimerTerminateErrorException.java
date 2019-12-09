@@ -6,8 +6,4 @@ public class TimerTerminateErrorException extends Exception {
 	public TimerTerminateErrorException() {
 		super("Timer can not terminate correctly.");
 	}
-	
-	public TimerTerminateErrorException(String message)	{
-		super(message);
-	}
 }

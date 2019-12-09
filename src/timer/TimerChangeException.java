@@ -6,8 +6,4 @@ public class TimerChangeException extends Exception {
 	public TimerChangeException() {
 		super("Timer time can not be changed correctly.");
 	}
-	
-	public TimerChangeException(String message) {
-		super(message);
-	}
 }
